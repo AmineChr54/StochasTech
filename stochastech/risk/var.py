@@ -2,7 +2,7 @@
 
 Sign convention: input ``returns`` is signed (positive = profit). Loss is
 ``-returns``. VaR and ES are reported as positive numbers when the tail is
-on the loss side. See ``doc/math/06_monte_carlo_var.md``.
+on the loss side. See ``docs/math/monte-carlo-var.md``.
 """
 from __future__ import annotations
 
@@ -143,7 +143,7 @@ def antithetic_normals(
     Returns a ``(n, n_paths)`` tensor whose columns split into two halves
     ``Z`` and ``-Z`` (the second half mirrors the first). For odd
     ``n_paths`` the final column is independent. Antithetic variates reduce
-    variance for monotone-in-Z integrands; see ``doc/math/06_monte_carlo_var.md``.
+    variance for monotone-in-Z integrands; see ``docs/math/monte-carlo-var.md``.
     """
     if n_paths < 1:
         raise ValueError(f"n_paths must be >= 1, got {n_paths}")

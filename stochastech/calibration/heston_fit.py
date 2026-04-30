@@ -1,6 +1,6 @@
 """Differentiable Heston calibration via the stochastic adjoint.
 
-See ``doc/math/07_adjoint_sde.md``.
+See ``docs/math/adjoint-sde.md``.
 """
 from __future__ import annotations
 
@@ -124,7 +124,7 @@ def fit_heston(
     ``stochastech/sde/heston.py``). For Heston's small parameter dimension
     ($|\\theta| = 6$ here) BPTT is competitive in wall-clock with the stochastic
     adjoint and far simpler to keep numerically stable; see
-    ``doc/math/07_adjoint_sde.md`` for the adjoint theory and the trade-off.
+    ``docs/math/adjoint-sde.md`` for the adjoint theory and the trade-off.
 
     Returns the fitted parameters and the per-iteration loss history.
     """

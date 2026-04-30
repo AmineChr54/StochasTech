@@ -1,6 +1,6 @@
 """Calibration losses: NLL of returns and energy distance.
 
-See ``doc/math/08_calibration_losses.md``.
+See ``docs/math/calibration-losses.md``.
 """
 from __future__ import annotations
 

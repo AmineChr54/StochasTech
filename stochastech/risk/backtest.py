@@ -1,6 +1,6 @@
 """VaR backtesting: Kupiec POF and Christoffersen independence + conditional coverage.
 
-See ``doc/math/09_var_backtesting.md``.
+See ``docs/math/var-backtesting.md``.
 """
 from __future__ import annotations
 

@@ -1,6 +1,6 @@
 """Heston stochastic-volatility simulator (full-truncation Euler).
 
-See ``doc/math/04_heston.md``.
+See ``docs/math/heston.md``.
 """
 from __future__ import annotations
 

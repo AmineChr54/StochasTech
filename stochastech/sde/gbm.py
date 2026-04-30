@@ -1,6 +1,6 @@
 """Geometric Brownian Motion simulator.
 
-See ``doc/math/03_gbm.md``.
+See ``docs/math/gbm.md``.
 """
 from __future__ import annotations
 

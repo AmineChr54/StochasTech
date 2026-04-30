@@ -1,6 +1,6 @@
 """Generic Euler-Maruyama core.
 
-See ``doc/math/05_euler_maruyama.md`` for the scheme and convergence orders.
+See ``docs/math/euler-maruyama.md`` for the scheme and convergence orders.
 """
 from __future__ import annotations
 

@@ -3,7 +3,7 @@
 Every module under ``stochastech/sde/`` and ``stochastech/calibration/``
 (excluding ``__init__.py``) must:
 
-1. Have a corresponding ``doc/math/*.md`` file (matched by the table below).
+1. Have a corresponding ``docs/math/*.md`` file (matched by the table below).
 2. The math doc must reference the module by its repo-relative path.
 
 Failing this test is how a code change without a math doc gets blocked at CI.
@@ -15,14 +15,14 @@ from pathlib import Path
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-MATH_DIR = REPO_ROOT / "doc" / "math"
+MATH_DIR = REPO_ROOT / "docs" / "math"
 
 MODULE_TO_DOC = {
-    "stochastech/sde/base.py": "doc/math/05_euler_maruyama.md",
-    "stochastech/sde/gbm.py": "doc/math/03_gbm.md",
-    "stochastech/sde/heston.py": "doc/math/04_heston.md",
-    "stochastech/calibration/heston_fit.py": "doc/math/07_adjoint_sde.md",
-    "stochastech/calibration/losses.py": "doc/math/08_calibration_losses.md",
+    "stochastech/sde/base.py": "docs/math/euler-maruyama.md",
+    "stochastech/sde/gbm.py": "docs/math/gbm.md",
+    "stochastech/sde/heston.py": "docs/math/heston.md",
+    "stochastech/calibration/heston_fit.py": "docs/math/adjoint-sde.md",
+    "stochastech/calibration/losses.py": "docs/math/calibration-losses.md",
 }
 
 WATCHED_DIRS = ["stochastech/sde", "stochastech/calibration"]
