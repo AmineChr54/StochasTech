@@ -25,12 +25,20 @@ pytest = ">=8.0"
 pytest-cov = ">=5.0"
 ruff = ">=0.5"
 
+[feature.docs.pypi-dependencies]
+mkdocs-material = ">=9.5"
+
 [environments]
 default = { features = [], solve-group = "main" }
 dev = { features = ["dev"], solve-group = "main" }
+docs = { features = ["docs"], solve-group = "main" }
 
 [tasks]
 test = "pytest"
 lint = "ruff check stochastech tests"
 fmt = "ruff format stochastech tests"
 parity = "pytest tests/test_doc_parity.py -v"
+
+[feature.docs.tasks]
+docs-serve = "mkdocs serve"
+docs-build = "mkdocs build"

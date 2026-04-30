@@ -41,6 +41,9 @@ paper/*.fdb_latexmk
 paper/*.synctex.gz
 paper/*.pdf
 
+# MkDocs build output
+site/
+
 # IDE
 .vscode/
 .idea/

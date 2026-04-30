@@ -1,0 +1,154 @@
+site_name: "StochasTech"
+site_url: https://aminechr54.github.io/StochasTech/
+site_description: "Differentiable Heston-model calibrator with Monte Carlo VaR backtesting — documentation"
+repo_url: https://github.com/AmineChr54/StochasTech/
+repo_name: AmineChr54/StochasTech
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  favicon: assets/favicon.png
+  logo: assets/logo.png
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+  palette:
+    # Dark mode (default — listed first)
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+    # Light mode
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+
+  features:
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+    - content.tabs.link
+    - content.tooltips
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - search.share
+    - toc.follow
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: "#"
+      toc_depth: 3
+
+  # PyMdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/AmineChr54/StochasTech
+      name: StochasTech on GitHub
+  generator: false
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Overview: getting-started/overview.md
+      - Installation: getting-started/installation.md
+      - Quickstart: getting-started/quickstart.md
+  - User Guide:
+      - Pipeline: guide/pipeline.md
+      - Inspecting Results: guide/results.md
+      - Week-by-Week Build Log: guide/week-by-week.md
+      - Troubleshooting: guide/troubleshooting.md
+      - Customization: guide/customization.md
+  - Mathematical Foundations:
+      - math/index.md
+      - Brownian Motion: math/brownian-motion.md
+      - Itô Calculus: math/ito-calculus.md
+      - Geometric Brownian Motion: math/gbm.md
+      - Heston Model: math/heston.md
+      - Euler–Maruyama: math/euler-maruyama.md
+      - Monte Carlo VaR: math/monte-carlo-var.md
+      - Adjoint SDE Method: math/adjoint-sde.md
+      - Calibration Losses: math/calibration-losses.md
+      - VaR Backtesting: math/var-backtesting.md
+  - API Reference:
+      - Source Modules: reference/api.md
+      - Driver Scripts: reference/scripts.md
+      - Test Suite: reference/tests.md
+      - Reading List: reference/reading-list.md
+  - Architecture:
+      - Repository Layout: architecture/repo-layout.md
+      - Tech Stack: architecture/tech-stack.md
+      - "Phase 2 — C++/CUDA": architecture/phase2-cpp.md
+  - Project:
+      - Roadmap: project/roadmap.md
+      - Scope: project/scope.md
+      - Neural SDE Method: project/methods.md
+      - Future Work: project/future-work.md
+      - ORIA Inspiration: project/oria-inspiration.md
+  - Paper:
+      - Building the Paper: paper/building.md
