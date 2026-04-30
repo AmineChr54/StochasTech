@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environments
+.venv/
+.env
+.pixi/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Data caches
+data_cache/
+*.pkl
+*.parquet
+
+# Generated results (regenerable via scripts/run_calibration.py + run_backtest.py)
+results/
+
+# Generated figures (regenerable via scripts/reproduce_figures.py)
+paper/figures/*.pdf
+
+# Paper build artifacts
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.bbl
+paper/*.blg
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.synctex.gz
+paper/*.pdf
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# C++ (Phase 2)
+cpp/build/
+*.o
+*.obj

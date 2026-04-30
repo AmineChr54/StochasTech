@@ -1,0 +1,26 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: prefix-dev/setup-pixi@v0.8.1
+        with:
+          pixi-version: latest
+          cache: true
+
+      - name: Lint
+        run: pixi run -e dev lint
+
+      - name: Doc-parity check
+        run: pixi run -e dev pytest tests/test_doc_parity.py -v
+
+      - name: Tests
+        run: pixi run -e dev pytest --cov=stochastech --cov-report=term-missing

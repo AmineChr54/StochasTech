@@ -1,0 +1,36 @@
+[project]
+name = "stochastech"
+version = "0.0.1"
+description = "Differentiable Heston-model calibrator with Monte Carlo VaR backtesting."
+authors = ["Amine Cheikhrouhou <amine.cheikhrouhou54@gmail.com>"]
+channels = ["conda-forge", "pytorch"]
+platforms = ["win-64", "linux-64", "osx-arm64"]
+
+[dependencies]
+python = ">=3.11,<3.13"
+pip = "*"
+numpy = ">=1.26"
+scipy = ">=1.12"
+pandas = ">=2.2"
+matplotlib = ">=3.8"
+pytorch = ">=2.2"
+
+[pypi-dependencies]
+torchsde = ">=0.2.6"
+yfinance = ">=0.2.40"
+stochastech = { path = ".", editable = true }
+
+[feature.dev.dependencies]
+pytest = ">=8.0"
+pytest-cov = ">=5.0"
+ruff = ">=0.5"
+
+[environments]
+default = { features = [], solve-group = "main" }
+dev = { features = ["dev"], solve-group = "main" }
+
+[tasks]
+test = "pytest"
+lint = "ruff check stochastech tests"
+fmt = "ruff format stochastech tests"
+parity = "pytest tests/test_doc_parity.py -v"
