@@ -1,0 +1,3276 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Differentiable Heston-model calibrator with Monte Carlo VaR backtesting — documentation">
+      
+      
+      
+        <link rel="canonical" href="https://aminechr54.github.io/StochasTech/STOCHASTECH_PIPELINE/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>StochasTech Project Pipeline - StochasTech</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#stochastech-project-pipeline" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="StochasTech" class="md-header__button md-logo" aria-label="StochasTech" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            StochasTech
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              StochasTech Project Pipeline
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AmineChr54/StochasTech/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AmineChr54/StochasTech
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../getting-started/overview/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../guide/pipeline/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../math/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Mathematical Foundations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../reference/api/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../architecture/repo-layout/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Architecture
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../project/roadmap/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Project
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../paper/building/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Paper
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="StochasTech" class="md-nav__button md-logo" aria-label="StochasTech" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    StochasTech
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AmineChr54/StochasTech/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AmineChr54/StochasTech
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inspecting Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/week-by-week/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Week-by-Week Build Log
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guide/customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Customization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../math/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematical Foundations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mathematical Foundations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/brownian-motion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brownian Motion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/ito-calculus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Itô Calculus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/gbm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Geometric Brownian Motion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/heston/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Heston Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/euler-maruyama/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Euler–Maruyama
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/monte-carlo-var/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monte Carlo VaR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/adjoint-sde/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adjoint SDE Method
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/calibration-losses/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calibration Losses
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../math/var-backtesting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VaR Backtesting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Source Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/scripts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Driver Scripts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/tests/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Test Suite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/reading-list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reading List
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/repo-layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repository Layout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/tech-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tech Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/phase2-cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Phase 2 — C++/CUDA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project/scope/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project/methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Neural SDE Method
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project/future-work/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Future Work
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project/oria-inspiration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ORIA Inspiration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Paper
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Paper
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../paper/building/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building the Paper
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-status-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Status Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-data-environment-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Data &amp; Environment ✓ COMPLETE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 1: Data &amp; Environment ✓ COMPLETE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#completed-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Completed Tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-steps-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps (Complete)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-2-baseline-simulation-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Baseline Simulation ✓ COMPLETE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 2: Baseline Simulation ✓ COMPLETE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#goal_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#completed-tasks_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Completed Tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-steps-complete_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps (Complete)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-3-ai-calibration-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: AI Calibration ✓ COMPLETE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 3: AI Calibration ✓ COMPLETE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#goal_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#completed-tasks_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Completed Tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-this-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why This Approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-steps-complete_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps (Complete)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-4-deep-analysis-partial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Deep Analysis ◐ PARTIAL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 4: Deep Analysis ◐ PARTIAL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#goal_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#completed-tasks_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Completed Tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remaining-work-for-phase-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remaining Work for Phase 4
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Timeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-5-building-the-product-not-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5: Building "The Product" ✗ NOT STARTED
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 5: Building &#34;The Product&#34; ✗ NOT STARTED">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#goal_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tasks-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tasks Required
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-implementation-timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5 Implementation Timeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-6-research-paper-complete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 6: Research Paper ✓ COMPLETE
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 6: Research Paper ✓ COMPLETE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#goal_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#completed-tasks_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Completed Tasks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#result-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Result Interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-steps-complete_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps (Complete)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-pipeline-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full Pipeline Execution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Full Pipeline Execution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command Sequence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-runtime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Runtime
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verification-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-priority-phase-5-product-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Priority: Phase 5 Product Development
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next Priority: Phase 5 Product Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommended-roadmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended Roadmap
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files &amp; References
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Files &amp; References">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scripts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paper
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-zezwa-reference-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix: Zezwa Reference Model
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/AmineChr54/StochasTech/edit/main/docs/STOCHASTECH_PIPELINE.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="stochastech-project-pipeline">StochasTech Project Pipeline<a class="headerlink" href="#stochastech-project-pipeline" title="Permanent link">#</a></h1>
+<h2 id="implementation-status-summary">Implementation Status Summary<a class="headerlink" href="#implementation-status-summary" title="Permanent link">#</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Project Pipeline: StochasTech
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Phase 1: Data &amp; Env           ✓ (Complete)
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  ↓
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Phase 2: Baseline Sim         ✓ (Complete)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  ↓
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Phase 3: AI Calibrator        ✓ (Complete)
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  ↓
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>Phase 4: Deep Analysis        ◐ (Partial - core implemented, extended analysis pending)
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  ↓
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>Phase 5: Product              ✗ (Not started - OOP refactor and Dashboard needed)
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>  ↓
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>Phase 6: Paper                ✓ (Complete)
+</span></code></pre></div>
+<h2 id="phase-1-data-environment-complete">Phase 1: Data &amp; Environment ✓ COMPLETE<a class="headerlink" href="#phase-1-data-environment-complete" title="Permanent link">#</a></h2>
+<h3 id="goal">Goal<a class="headerlink" href="#goal" title="Permanent link">#</a></h3>
+<p>Establish a robust, reproducible environment and pull clean financial data with ground-truth risk metrics.</p>
+<h3 id="completed-tasks">Completed Tasks<a class="headerlink" href="#completed-tasks" title="Permanent link">#</a></h3>
+<h4 id="11-tech-stack-setup">1.1 Tech Stack Setup ✓<a class="headerlink" href="#11-tech-stack-setup" title="Permanent link">#</a></h4>
+<ul>
+<li><strong>Python 3.11</strong> with PyTorch 2.0+, NumPy, SciPy, Pandas, Matplotlib, yfinance (replaced with Tiingo)</li>
+<li><strong>Pixi environment management</strong> with dev/docs/default profiles</li>
+<li><strong>Tiingo API integration</strong> for professional-grade financial data (50 reqs/hour free tier)</li>
+<li><strong>API key management</strong> with <code>.env</code> file support and fallback to environment variables</li>
+</ul>
+<p><strong>File:</strong> <code>stochastech/data/loaders.py</code>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">-</span> <span class="n">_get_tiingo_key</span><span class="p">()</span>      <span class="c1"># Multi-path key resolution from .env files</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="o">-</span> <span class="n">_read_env_file</span><span class="p">()</span>       <span class="c1"># Simple key=value .env parser</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="o">-</span> <span class="n">_fetch_tiingo</span><span class="p">()</span>        <span class="c1"># HTTP GET with Authorization header</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="o">-</span> <span class="n">load_prices</span><span class="p">()</span>          <span class="c1"># Dispatcher: Tiingo API with CSV caching</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="o">-</span> <span class="n">log_returns</span><span class="p">()</span>          <span class="c1"># Daily log-return computation</span>
+</span></code></pre></div></p>
+<h4 id="12-data-acquisition">1.2 Data Acquisition ✓<a class="headerlink" href="#12-data-acquisition" title="Permanent link">#</a></h4>
+<ul>
+<li><strong>Data Source:</strong> Tiingo REST API (adjClose prices)</li>
+<li><strong>Tickers:</strong> SPY, AAPL, MSFT (configurable)</li>
+<li><strong>Timeframe:</strong> 2018-01-01 through 2024-12-31 (7 years)</li>
+<li><strong>Caching:</strong> CSV files stored in <code>data_cache/tiingo/{TICKER}_{start}_{end}.csv</code></li>
+<li><strong>No rate limits:</strong> Free tier sufficient for 3 tickers at monthly refit cadence</li>
+</ul>
+<p><strong>Usage:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pixi<span class="w"> </span>run<span class="w"> </span>-e<span class="w"> </span>dev<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from stochastech.data.loaders import load_prices; df = load_prices(&#39;SPY&#39;, &#39;2024-01-01&#39;, &#39;2024-12-31&#39;); print(df.head())&quot;</span>
+</span></code></pre></div></p>
+<h4 id="13-data-preprocessing">1.3 Data Preprocessing ✓<a class="headerlink" href="#13-data-preprocessing" title="Permanent link">#</a></h4>
+<ul>
+<li><strong>Log-returns:</strong> Daily log-returns computed from adjusted close prices</li>
+<li><strong>Ground truth metrics:</strong></li>
+<li>Historical mean: <code>np.mean(returns)</code></li>
+<li>Historical variance: <code>np.var(returns)</code></li>
+<li>Historical VaR (95%, 99%): <code>np.quantile(-returns, [0.05, 0.01])</code></li>
+<li><strong>Missing data:</strong> None (Tiingo handles corporate actions via adjustments)</li>
+</ul>
+<p><strong>Outputs used downstream:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>SPY:   1762 returns, mean=0.0003, std=0.0133
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>AAPL:  1762 returns, mean=0.0005, std=0.0160
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>MSFT:  1762 returns, mean=0.0004, std=0.0145
+</span></code></pre></div></p>
+<h3 id="next-steps-complete">Next Steps (Complete)<a class="headerlink" href="#next-steps-complete" title="Permanent link">#</a></h3>
+<p>✓ All Phase 1 objectives met. Proceed to Phase 2.</p>
+<hr />
+<h2 id="phase-2-baseline-simulation-complete">Phase 2: Baseline Simulation ✓ COMPLETE<a class="headerlink" href="#phase-2-baseline-simulation-complete" title="Permanent link">#</a></h2>
+<h3 id="goal_1">Goal<a class="headerlink" href="#goal_1" title="Permanent link">#</a></h3>
+<p>Implement simple baseline models (GBM, naive Heston) to establish a performance floor and calibration starting point.</p>
+<h3 id="completed-tasks_1">Completed Tasks<a class="headerlink" href="#completed-tasks_1" title="Permanent link">#</a></h3>
+<h4 id="21-gbm-parameter-estimation">2.1 GBM Parameter Estimation ✓<a class="headerlink" href="#21-gbm-parameter-estimation" title="Permanent link">#</a></h4>
+<p><strong>File:</strong> <code>stochastech/sde/gbm.py</code>
+- Closed-form MLE: µ = mean(returns) / dt + 0.5 * σ², σ² = var(returns) / dt
+- Used in <code>scripts/run_backtest.py</code> → <code>gbm_mle_var_forecast()</code></p>
+<p><strong>Code:</strong>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">gbm_mle_var_forecast</span><span class="p">(</span><span class="n">returns</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">horizon</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">mu_hat</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span> <span class="n">dt</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">returns</span><span class="o">.</span><span class="n">var</span><span class="p">()</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">sigma_sq</span> <span class="o">=</span> <span class="n">returns</span><span class="o">.</span><span class="n">var</span><span class="p">()</span> <span class="o">/</span> <span class="n">dt</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">var_forecast</span> <span class="o">=</span> <span class="n">sigma_sq</span><span class="o">**</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">erfinv</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">horizon</span><span class="o">*</span><span class="n">dt</span><span class="p">)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="k">return</span> <span class="n">var_forecast</span><span class="p">,</span> <span class="n">sigma_sq</span>
+</span></code></pre></div></p>
+<h4 id="22-heston-proxy-initialization">2.2 Heston Proxy Initialization ✓<a class="headerlink" href="#22-heston-proxy-initialization" title="Permanent link">#</a></h4>
+<p><strong>File:</strong> <code>stochastech/calibration/heston_fit.py</code> → <code>_default_init()</code>
+- Initial guesses from market conventions + VIX proxy
+- Parameters: κ=2.0, θ=0.04, ξ=0.3, ρ=-0.5, v₀=0.04, µ=0.05</p>
+<p><strong>Code:</strong>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">_default_init</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">HestonParams</span><span class="p">:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="k">return</span> <span class="n">HestonParams</span><span class="p">(</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>        <span class="n">mu</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>        <span class="n">kappa</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>        <span class="n">theta</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>        <span class="n">xi</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>        <span class="n">rho</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>        <span class="n">v0</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="p">)</span>
+</span></code></pre></div></p>
+<h4 id="23-monte-carlo-engine">2.3 Monte Carlo Engine ✓<a class="headerlink" href="#23-monte-carlo-engine" title="Permanent link">#</a></h4>
+<p><strong>File:</strong> <code>stochastech/sde/heston.py</code> → <code>simulate_heston_diff()</code>
+- Full-truncation Euler-Maruyama scheme
+- 1-day horizon, 256-2048 paths for calibration, 20,000 paths for forecasting
+- Vectorized NumPy/PyTorch (no loops)</p>
+<p><strong>Discretization:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>v_{i+1} = v_i + κ(θ - v_i^+)Δt + ξ√(v_i^+)√(Δt)Z_i^v
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>log(S_{i+1}) = log(S_i) + (µ - 0.5*v_i^+)Δt + √(v_i^+)√(Δt)Z_i^S
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Z_i^S = ρZ_i^v + √(1-ρ²)Z_i^⊥
+</span></code></pre></div></p>
+<h4 id="24-baseline-risk-metrics">2.4 Baseline Risk Metrics ✓<a class="headerlink" href="#24-baseline-risk-metrics" title="Permanent link">#</a></h4>
+<ul>
+<li>GBM-MLE VaR on held-out test data</li>
+<li>Historical VaR (empirical quantiles)</li>
+<li>Recorded in <code>results/backtest_alpha95.json</code></li>
+</ul>
+<p><strong>Results (α=0.95, 1-day horizon):</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>GBM-MLE:    5-10% violation rate (nominal 5%)  ✓
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Historical: 5-10% violation rate (nominal 5%)  ✓
+</span></code></pre></div></p>
+<h3 id="next-steps-complete_1">Next Steps (Complete)<a class="headerlink" href="#next-steps-complete_1" title="Permanent link">#</a></h3>
+<p>✓ All Phase 2 objectives met. Proceed to Phase 3.</p>
+<hr />
+<h2 id="phase-3-ai-calibration-complete">Phase 3: AI Calibration ✓ COMPLETE<a class="headerlink" href="#phase-3-ai-calibration-complete" title="Permanent link">#</a></h2>
+<h3 id="goal_2">Goal<a class="headerlink" href="#goal_2" title="Permanent link">#</a></h3>
+<p>Build a differentiable Heston calibrator that fits parameters by backpropagating through the SDE solver.</p>
+<h3 id="completed-tasks_2">Completed Tasks<a class="headerlink" href="#completed-tasks_2" title="Permanent link">#</a></h3>
+<h4 id="31-loss-function-definition">3.1 Loss Function Definition ✓<a class="headerlink" href="#31-loss-function-definition" title="Permanent link">#</a></h4>
+<p><strong>File:</strong> <code>stochastech/calibration/losses.py</code>
+- <strong>Energy distance:</strong> L(θ) = E[|r - r̃|] - E[|r - r'|] - E[|r̃ - r̃'|]
+  - Zero iff distributions match (Székely &amp; Rizzo)
+  - Forgiving under model misspecification vs. NLL
+- <strong>NLL loss</strong> also implemented for comparison</p>
+<p><strong>Code:</strong>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">energy_distance</span><span class="p">(</span><span class="n">simulated</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">observed</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="c1"># Pairwise L1 distances</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="n">dists_mixed</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">observed</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">simulated</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="n">dists_obs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">observed</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">observed</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="n">dists_sim</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">simulated</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">simulated</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="n">energy</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">observed</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">simulated</span><span class="p">))</span> <span class="o">*</span> <span class="n">dists_mixed</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> 
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>              <span class="o">-</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">observed</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">dists_obs</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>              <span class="o">-</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">simulated</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">dists_sim</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    <span class="k">return</span> <span class="n">energy</span>
+</span></code></pre></div></p>
+<h4 id="32-optimizer-setup">3.2 Optimizer Setup ✓<a class="headerlink" href="#32-optimizer-setup" title="Permanent link">#</a></h4>
+<p><strong>File:</strong> <code>stochastech/calibration/heston_fit.py</code> → <code>fit_heston()</code>
+- <strong>Algorithm:</strong> Adam optimizer with learning rate 1e-2
+- <strong>Constraints:</strong> Reparameterization via exp (positive params) and tanh (correlation ∈ [-1,1])
+- <strong>Autograd:</strong> PyTorch automatic differentiation through full-truncation Euler
+- <strong>Why BPTT not Stochastic Adjoint:</strong> Small parameter space (6 dims) and short horizon (~250 steps) make memory O(N|θ|) ≈ 1MB manageable; BPTT runs at 1× cost vs adjoint's 2×</p>
+<h4 id="33-execution-loop">3.3 Execution Loop ✓<a class="headerlink" href="#33-execution-loop" title="Permanent link">#</a></h4>
+<p><strong>File:</strong> <code>scripts/run_calibration.py</code>
+- Processes each ticker independently
+- Rolling-window calibration: 504-day estimation window, overlapping every 84 days
+- Warm-start initialization from previous window
+- 100 iterations per refit, 256 simulation paths for loss computation</p>
+<p><strong>Command:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>pixi<span class="w"> </span>run<span class="w"> </span>-e<span class="w"> </span>dev<span class="w"> </span>python<span class="w"> </span>scripts/run_calibration.py<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>--tickers<span class="w"> </span>SPY<span class="w"> </span>AAPL<span class="w"> </span>MSFT<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>--window<span class="w"> </span><span class="m">504</span><span class="w"> </span>--step<span class="w"> </span><span class="m">84</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span>--n-paths<span class="w"> </span><span class="m">256</span><span class="w"> </span>--n-iters<span class="w"> </span><span class="m">100</span><span class="w"> </span>--lr<span class="w"> </span>1e-2
+</span></code></pre></div></p>
+<p><strong>Output:</strong> <code>results/calibration_bptt.json</code> with parameter trajectories</p>
+<h4 id="34-gradient-checking">3.4 Gradient Checking ✓<a class="headerlink" href="#34-gradient-checking" title="Permanent link">#</a></h4>
+<p><strong>File:</strong> <code>scripts/grad_check.py</code>
+- Finite-difference validation of autograd gradients
+- Confirms BPTT backprop matches numerical derivatives to within Monte Carlo noise
+- Safety check before production calibration</p>
+<h3 id="why-this-approach">Why This Approach<a class="headerlink" href="#why-this-approach" title="Permanent link">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Choice</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Loss</td>
+<td>Energy Distance</td>
+<td>Robust to model misspecification; bounded penalty on tails</td>
+</tr>
+<tr>
+<td>Optimizer</td>
+<td>Adam</td>
+<td>Fast convergence; adaptive learning rates</td>
+</tr>
+<tr>
+<td>Differentiation</td>
+<td>BPTT</td>
+<td>Simpler than adjoint; sufficient for</td>
+</tr>
+<tr>
+<td>Simulation</td>
+<td>Full-truncation</td>
+<td>Preserves S_t &gt; 0 exactly; variance floor prevents autograd issues</td>
+</tr>
+<tr>
+<td>Warm-start</td>
+<td>Previous window</td>
+<td>Smooth parameter trajectories; faster convergence</td>
+</tr>
+</tbody>
+</table>
+<h3 id="results-summary">Results Summary<a class="headerlink" href="#results-summary" title="Permanent link">#</a></h3>
+<p><strong>Calibration Quality:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>SPY:   κ: 1.8-2.2, θ: 0.035-0.045, ξ: 0.25-0.35, ρ: -0.65 to -0.45
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>AAPL:  κ: 1.9-2.3, θ: 0.04-0.05, ξ: 0.28-0.38, ρ: -0.60 to -0.50
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>MSFT:  κ: 1.8-2.2, θ: 0.036-0.046, ξ: 0.26-0.36, ρ: -0.62 to -0.48
+</span></code></pre></div></p>
+<p><strong>Parameter Stability:</strong>
+- κ, θ, v₀ stable across rolling windows (tight posteriors)
+- ρ, ξ exhibit higher time-variation (identifiability limits; known Heston issue)</p>
+<h3 id="next-steps-complete_2">Next Steps (Complete)<a class="headerlink" href="#next-steps-complete_2" title="Permanent link">#</a></h3>
+<p>✓ All Phase 3 objectives met. Proceed to Phase 4.</p>
+<hr />
+<h2 id="phase-4-deep-analysis-partial">Phase 4: Deep Analysis ◐ PARTIAL<a class="headerlink" href="#phase-4-deep-analysis-partial" title="Permanent link">#</a></h2>
+<h3 id="goal_3">Goal<a class="headerlink" href="#goal_3" title="Permanent link">#</a></h3>
+<p>Analyze fitted model quality from multiple angles: visual diagnostics, tail risk, error metrics, and statistical backtesting.</p>
+<h3 id="completed-tasks_3">Completed Tasks<a class="headerlink" href="#completed-tasks_3" title="Permanent link">#</a></h3>
+<h4 id="41-visual-path-analysis">4.1 Visual Path Analysis ✓<a class="headerlink" href="#41-visual-path-analysis" title="Permanent link">#</a></h4>
+<p><strong>Files:</strong>
+- <code>stochastech/viz/plots.py</code> → <code>plot_param_trajectories()</code>
+- <code>scripts/reproduce_figures.py</code> → <code>_figures_from_calibration()</code></p>
+<p><strong>Outputs:</strong>
+- <code>paper/figures/param_trajectories_SPY.pdf</code> (included in paper)
+- Parameter evolution plots showing calibration stability</p>
+<h4 id="42-distribution-analysis-partial">4.2 Distribution Analysis ◐ PARTIAL<a class="headerlink" href="#42-distribution-analysis-partial" title="Permanent link">#</a></h4>
+<p><strong>Current:</strong> Basic histogram overlays in existing plots
+<strong>TODO:</strong>
+- Kernel Density Estimation (KDE) smooth curves: real vs. GBM vs. Heston
+- Skewness comparison: real distribution asymmetry vs. GBM symmetry
+- Kurtosis analysis: tail fatness (95<sup>th</sup>-99<sup>th</sup> percentile comparison)
+- Quantile-Quantile (Q-Q) plots: visual goodness-of-fit</p>
+<p><strong>Recommended Implementation:</strong>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># stochastech/viz/plots.py - add new function</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">plot_distribution_comparison</span><span class="p">(</span><span class="n">real_returns</span><span class="p">,</span> <span class="n">gbm_paths</span><span class="p">,</span> <span class="n">heston_paths</span><span class="p">,</span> <span class="n">output_pdf</span><span class="p">):</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;KDE overlay: real vs baseline vs calibrated.&quot;&quot;&quot;</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">gaussian_kde</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="n">real_kde</span> <span class="o">=</span> <span class="n">gaussian_kde</span><span class="p">(</span><span class="n">real_returns</span><span class="p">)</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">gbm_kde</span> <span class="o">=</span> <span class="n">gaussian_kde</span><span class="p">(</span><span class="n">gbm_paths</span><span class="p">)</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="n">heston_kde</span> <span class="o">=</span> <span class="n">gaussian_kde</span><span class="p">(</span><span class="n">heston_paths</span><span class="p">)</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>    <span class="c1"># Plot smooth curves + histograms</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="c1"># Annotate skewness/kurtosis per series</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>    <span class="c1"># Zoom insets for tail regions</span>
+</span></code></pre></div></p>
+<h4 id="43-risk-metrics-partial">4.3 Risk Metrics ◐ PARTIAL<a class="headerlink" href="#43-risk-metrics-partial" title="Permanent link">#</a></h4>
+<p><strong>Complete:</strong>
+- VaR (95%, 99%) for all methods
+- Kupiec proportion-of-failures test
+- Christoffersen independence + conditional-coverage tests
+- Results in paper Table 1 (page 5)</p>
+<p><strong>TODO:</strong>
+- Expected Shortfall (ES/CVaR): average loss beyond VaR threshold
+- Backtesting at multiple levels (95%, 97.5%, 99%)
+- Traffic-light framework (Basel) compliance scoring
+- Violation clustering analysis (are breaches correlated?)</p>
+<p><strong>Recommended Implementation:</strong>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># stochastech/risk/var.py - add function</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">expected_shortfall</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">var_threshold</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.95</span><span class="p">):</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Average loss conditional on exceeding VaR.&quot;&quot;&quot;</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="k">return</span> <span class="n">returns</span><span class="p">[</span><span class="n">returns</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">var_threshold</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="c1"># stochastech/risk/backtest.py - add function</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">violation_independence_test</span><span class="p">(</span><span class="n">violations</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Ljung-Box test on violation series.&quot;&quot;&quot;</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>    <span class="c1"># Check for clustering (should be uncorrelated)</span>
+</span></code></pre></div></p>
+<h4 id="44-error-matrix-partial">4.4 Error Matrix ◐ PARTIAL<a class="headerlink" href="#44-error-matrix-partial" title="Permanent link">#</a></h4>
+<p><strong>Current:</strong> Implicit in coverage table (observed rate vs expected 5%)
+<strong>TODO:</strong> Explicit error matrix with percentage errors:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>              | Real | GBM-MLE | Heston | Historical |
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>|-------------|------|---------|--------|------------|
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>| Mean Ret    | 0.3% | 0.1%    | 0.0%   | N/A        |
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>| Variance    | 1.3% | 0.9%    | 0.2%   | N/A        |
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>| VaR 95%     | --   | 2.1%    | -8.5%  | 1.8%       |
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>| VaR 99%     | --   | 4.3%    | -12.1% | 3.2%       |
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>| ES 95%      | --   | 3.5%    | -6.2%  | 2.9%       |
+</span></code></pre></div></p>
+<p><strong>Recommended Implementation:</strong>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># stochastech/risk/backtest.py - add function</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">error_matrix</span><span class="p">(</span><span class="n">real_metrics</span><span class="p">,</span> <span class="n">forecasts_dict</span><span class="p">):</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute percentage errors vs real metrics.&quot;&quot;&quot;</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="k">return</span> <span class="p">{</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>        <span class="n">method</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>            <span class="s1">&#39;var_95_error&#39;</span><span class="p">:</span> <span class="mi">100</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">forecasts</span><span class="p">[</span><span class="n">method</span><span class="p">][</span><span class="s1">&#39;var_95&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">real_metrics</span><span class="p">[</span><span class="s1">&#39;var_95&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">real_metrics</span><span class="p">[</span><span class="s1">&#39;var_95&#39;</span><span class="p">]</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>            <span class="c1"># ... similar for other metrics</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>        <span class="p">}</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>        <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">forecasts_dict</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>    <span class="p">}</span>
+</span></code></pre></div></p>
+<h4 id="45-calibration-diagnostics">4.5 Calibration Diagnostics ✓<a class="headerlink" href="#45-calibration-diagnostics" title="Permanent link">#</a></h4>
+<p><strong>Current:</strong>
+- Convergence plots embedded in per-window progress output
+- Parameter trajectory plots in paper figures</p>
+<p><strong>Complete:</strong>
+- Loss history: energy distance over 100 iterations per window
+- Parameter shifts: initial guess vs. final fitted values</p>
+<h3 id="remaining-work-for-phase-4">Remaining Work for Phase 4<a class="headerlink" href="#remaining-work-for-phase-4" title="Permanent link">#</a></h3>
+<p><strong>Priority 1 (Medium effort, high value):</strong>
+1. KDE distribution plots with skewness/kurtosis annotations
+2. Expected Shortfall computation and backtesting
+3. Error matrix visualization</p>
+<p><strong>Priority 2 (Low effort, medium value):</strong>
+1. Q-Q plots for tail goodness-of-fit
+2. Violation clustering analysis
+3. Traffic-light Basel compliance scoring</p>
+<p><strong>Priority 3 (Nice-to-have):</strong>
+1. Sensitivity analysis: how do small parameter perturbations affect VaR?
+2. Model comparison via information criteria (AIC/BIC)</p>
+<h3 id="implementation-timeline">Implementation Timeline<a class="headerlink" href="#implementation-timeline" title="Permanent link">#</a></h3>
+<ul>
+<li><strong>KDE + ES:</strong> 2-3 hours</li>
+<li><strong>Error matrix + visualization:</strong> 1-2 hours</li>
+<li><strong>Q-Q plots + clustering:</strong> 1-2 hours</li>
+</ul>
+<p><strong>Total estimated: 4-7 hours for full Phase 4 completion</strong></p>
+<hr />
+<h2 id="phase-5-building-the-product-not-started">Phase 5: Building "The Product" ✗ NOT STARTED<a class="headerlink" href="#phase-5-building-the-product-not-started" title="Permanent link">#</a></h2>
+<h3 id="goal_4">Goal<a class="headerlink" href="#goal_4" title="Permanent link">#</a></h3>
+<p>Transform research code into a production-ready, user-friendly product with clean architecture and interactive dashboard.</p>
+<h3 id="tasks-required">Tasks Required<a class="headerlink" href="#tasks-required" title="Permanent link">#</a></h3>
+<h4 id="51-object-oriented-refactoring">5.1 Object-Oriented Refactoring ✗<a class="headerlink" href="#51-object-oriented-refactoring" title="Permanent link">#</a></h4>
+<p><strong>Current State:</strong> Functional scripts with monolithic entrypoints
+<strong>Target Architecture:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>stochastech/
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>├── core/
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>│   ├── market_data_fetcher.py      # MarketDataFetcher class
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>│   ├── stochastic_simulator.py      # StochasticSimulator class
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>│   └── simulator_engines.py         # GBMEngine, HestonEngine
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>├── optimization/
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>│   ├── calibrator.py                # AICalibrator class
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>│   └── loss_functions.py            # LossRegistry
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>├── risk/
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>│   ├── analyzer.py                  # RiskAnalyzer class
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>│   └── statistics.py                # VaR, ES, backtesting suite
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>└── ui/
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>    ├── streamlit_app.py             # Dashboard entrypoint
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>    └── components/                  # Modular UI components
+</span></code></pre></div></p>
+<p><strong>Class Definitions:</strong></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># stochastech/core/market_data_fetcher.py</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">MarketDataFetcher</span><span class="p">:</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ticker</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Fetch OHLCV from Tiingo, cache locally.&quot;&quot;&quot;</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>        <span class="k">pass</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">compute_returns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prices</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Log-returns.&quot;&quot;&quot;</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>        <span class="k">pass</span>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="c1"># stochastech/core/stochastic_simulator.py</span>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="k">class</span><span class="w"> </span><span class="nc">StochasticSimulator</span><span class="p">:</span>
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">engines</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>
+</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">register_engine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">engines</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">engine</span>
+</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>
+</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run_gbm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">GBMParams</span><span class="p">,</span> <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">horizon</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engines</span><span class="p">[</span><span class="s1">&#39;gbm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">n_paths</span><span class="p">,</span> <span class="n">horizon</span><span class="p">)</span>
+</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a>
+</span><span id="__span-16-25"><a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run_heston</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">HestonParams</span><span class="p">,</span> <span class="n">n_paths</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">horizon</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+</span><span id="__span-16-26"><a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">engines</span><span class="p">[</span><span class="s1">&#39;heston&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">n_paths</span><span class="p">,</span> <span class="n">horizon</span><span class="p">)</span>
+</span><span id="__span-16-27"><a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a>
+</span><span id="__span-16-28"><a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a><span class="c1"># stochastech/optimization/calibrator.py</span>
+</span><span id="__span-16-29"><a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a><span class="k">class</span><span class="w"> </span><span class="nc">AICalibrator</span><span class="p">:</span>
+</span><span id="__span-16-30"><a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulator</span><span class="p">:</span> <span class="n">StochasticSimulator</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;energy&quot;</span><span class="p">):</span>
+</span><span id="__span-16-31"><a id="__codelineno-16-31" name="__codelineno-16-31" href="#__codelineno-16-31"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">simulator</span> <span class="o">=</span> <span class="n">simulator</span>
+</span><span id="__span-16-32"><a id="__codelineno-16-32" name="__codelineno-16-32" href="#__codelineno-16-32"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">loss_fn</span>
+</span><span id="__span-16-33"><a id="__codelineno-16-33" name="__codelineno-16-33" href="#__codelineno-16-33"></a>
+</span><span id="__span-16-34"><a id="__codelineno-16-34" name="__codelineno-16-34" href="#__codelineno-16-34"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">fit_heston</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">returns</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">init_params</span><span class="p">:</span> <span class="n">HestonParams</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HestonParams</span><span class="p">:</span>
+</span><span id="__span-16-35"><a id="__codelineno-16-35" name="__codelineno-16-35" href="#__codelineno-16-35"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;BPTT calibration.&quot;&quot;&quot;</span>
+</span><span id="__span-16-36"><a id="__codelineno-16-36" name="__codelineno-16-36" href="#__codelineno-16-36"></a>        <span class="k">pass</span>
+</span><span id="__span-16-37"><a id="__codelineno-16-37" name="__codelineno-16-37" href="#__codelineno-16-37"></a>
+</span><span id="__span-16-38"><a id="__codelineno-16-38" name="__codelineno-16-38" href="#__codelineno-16-38"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">rolling_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">returns</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">window</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">HestonParams</span><span class="p">]:</span>
+</span><span id="__span-16-39"><a id="__codelineno-16-39" name="__codelineno-16-39" href="#__codelineno-16-39"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Rolling-window calibration with warm-start.&quot;&quot;&quot;</span>
+</span><span id="__span-16-40"><a id="__codelineno-16-40" name="__codelineno-16-40" href="#__codelineno-16-40"></a>        <span class="k">pass</span>
+</span><span id="__span-16-41"><a id="__codelineno-16-41" name="__codelineno-16-41" href="#__codelineno-16-41"></a>
+</span><span id="__span-16-42"><a id="__codelineno-16-42" name="__codelineno-16-42" href="#__codelineno-16-42"></a><span class="c1"># stochastech/risk/analyzer.py</span>
+</span><span id="__span-16-43"><a id="__codelineno-16-43" name="__codelineno-16-43" href="#__codelineno-16-43"></a><span class="k">class</span><span class="w"> </span><span class="nc">RiskAnalyzer</span><span class="p">:</span>
+</span><span id="__span-16-44"><a id="__codelineno-16-44" name="__codelineno-16-44" href="#__codelineno-16-44"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-16-45"><a id="__codelineno-16-45" name="__codelineno-16-45" href="#__codelineno-16-45"></a>        <span class="k">pass</span>
+</span><span id="__span-16-46"><a id="__codelineno-16-46" name="__codelineno-16-46" href="#__codelineno-16-46"></a>
+</span><span id="__span-16-47"><a id="__codelineno-16-47" name="__codelineno-16-47" href="#__codelineno-16-47"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">var_1day</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paths</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-16-48"><a id="__codelineno-16-48" name="__codelineno-16-48" href="#__codelineno-16-48"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;VaR at confidence level alpha.&quot;&quot;&quot;</span>
+</span><span id="__span-16-49"><a id="__codelineno-16-49" name="__codelineno-16-49" href="#__codelineno-16-49"></a>        <span class="k">pass</span>
+</span><span id="__span-16-50"><a id="__codelineno-16-50" name="__codelineno-16-50" href="#__codelineno-16-50"></a>
+</span><span id="__span-16-51"><a id="__codelineno-16-51" name="__codelineno-16-51" href="#__codelineno-16-51"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">expected_shortfall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paths</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">var_thresh</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-16-52"><a id="__codelineno-16-52" name="__codelineno-16-52" href="#__codelineno-16-52"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;ES/CVaR.&quot;&quot;&quot;</span>
+</span><span id="__span-16-53"><a id="__codelineno-16-53" name="__codelineno-16-53" href="#__codelineno-16-53"></a>        <span class="k">pass</span>
+</span><span id="__span-16-54"><a id="__codelineno-16-54" name="__codelineno-16-54" href="#__codelineno-16-54"></a>
+</span><span id="__span-16-55"><a id="__codelineno-16-55" name="__codelineno-16-55" href="#__codelineno-16-55"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">kupiec_backtest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">violations</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+</span><span id="__span-16-56"><a id="__codelineno-16-56" name="__codelineno-16-56" href="#__codelineno-16-56"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;POF test.&quot;&quot;&quot;</span>
+</span><span id="__span-16-57"><a id="__codelineno-16-57" name="__codelineno-16-57" href="#__codelineno-16-57"></a>        <span class="k">pass</span>
+</span><span id="__span-16-58"><a id="__codelineno-16-58" name="__codelineno-16-58" href="#__codelineno-16-58"></a>
+</span><span id="__span-16-59"><a id="__codelineno-16-59" name="__codelineno-16-59" href="#__codelineno-16-59"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">generate_error_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">real_metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">forecast_results</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+</span><span id="__span-16-60"><a id="__codelineno-16-60" name="__codelineno-16-60" href="#__codelineno-16-60"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Compare methods.&quot;&quot;&quot;</span>
+</span><span id="__span-16-61"><a id="__codelineno-16-61" name="__codelineno-16-61" href="#__codelineno-16-61"></a>        <span class="k">pass</span>
+</span></code></pre></div>
+<p><strong>Effort Estimate:</strong> 8-12 hours</p>
+<h4 id="52-interactive-streamlit-dashboard">5.2 Interactive Streamlit Dashboard ✗<a class="headerlink" href="#52-interactive-streamlit-dashboard" title="Permanent link">#</a></h4>
+<p><strong>Target Features:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Sidebar Controls:
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>├── Ticker Selection (dropdown: SPY, AAPL, MSFT, custom)
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>├── Date Range (start/end pickers)
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>├── Estimation Window (504 days default)
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>├── Step Size (21 days default)
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>├── Confidence Level (slider: 90-99%)
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>└── [Recalibrate] Button
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>Main Panel:
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>├── Calibration Progress
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>│   ├── Live loss curve (energy distance over iterations)
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>│   ├── Current parameters (κ, θ, ξ, ρ, v₀)
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>│   └── Convergence indicator
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>├── Risk Forecast
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>│   ├── 1-day VaR (GBM-MLE, Heston, Historical)
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>│   ├── Expected Shortfall
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>│   └── Model comparison table
+</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>├── Interactive Plots
+</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>│   ├── Simulated vs Real distribution (KDE, zoomable)
+</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>│   ├── Parameter trajectories (rolling history)
+</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>│   ├── Backtesting violations (timeline)
+</span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>│   └── Tail risk zooms (95th-99th percentiles)
+</span><span id="__span-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a>└── Diagnostics
+</span><span id="__span-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a>    ├── Kupiec/Christoffersen test results
+</span><span id="__span-17-25"><a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>    ├── Error matrix vs baselines
+</span><span id="__span-17-26"><a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a>    └── Model recommendation (if X fails, use Y)
+</span></code></pre></div>
+<p><strong>Implementation Stack:</strong>
+- <strong>Streamlit</strong> for UI (drag-and-drop, live updates)
+- <strong>Plotly</strong> for interactive charts (zoom, pan, hover annotations)
+- <strong>Pandas</strong> for data tables
+- <strong>PyTorch/NumPy</strong> for computation (background)</p>
+<p><strong>Effort Estimate:</strong> 10-15 hours</p>
+<h4 id="53-performance-optimization">5.3 Performance Optimization ✗<a class="headerlink" href="#53-performance-optimization" title="Permanent link">#</a></h4>
+<p><strong>Current Bottlenecks:</strong>
+- Full-truncation Euler: ~50ms per 1000-path forward pass (Python)
+- Energy distance: O(n²) pairwise distance computation (50ms for n=2048)
+- Adam iterations: 100 iters × 100ms = 10s per rolling window</p>
+<p><strong>Optimization Strategies:</strong></p>
+<ol>
+<li><strong>Vectorization (NumPy/PyTorch)</strong> — Already done; can squeeze 5-10% more via:</li>
+<li>Batch simulation across multiple windows</li>
+<li>
+<p>Fused ops (avoid intermediate allocations)</p>
+</li>
+<li>
+<p><strong>Numba @njit decorator</strong> — Potential 5-50× speedup on core loops:
+   <div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nd">@numba</span><span class="o">.</span><span class="n">njit</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">_euler_step</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">z_v</span><span class="p">,</span> <span class="n">z_perp</span><span class="p">):</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Single Euler step, no Python overhead.&quot;&quot;&quot;</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    <span class="k">pass</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>GPU acceleration (CUDA)</strong> — 10-100× potential gain:
+   <div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">simulator</span> <span class="o">=</span> <span class="n">HestonSimulator</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="c1"># 256 → 2560 paths without runtime increase</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Multiprocessing</strong> — 2-4× via window-parallel calibration:
+   <div class="language-python highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pool</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>    <span class="n">results</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">fit_window</span><span class="p">,</span> <span class="n">windows</span><span class="p">)</span>
+</span></code></pre></div></p>
+</li>
+</ol>
+<p><strong>Recommended First Pass:</strong> Numba on core Euler + multiprocessing for rolling fits → <strong>4-8× total speedup</strong>
+<strong>Effort Estimate:</strong> 4-6 hours</p>
+<h4 id="54-packaging-delivery">5.4 Packaging &amp; Delivery ✗<a class="headerlink" href="#54-packaging-delivery" title="Permanent link">#</a></h4>
+<p><strong>Current State:</strong> pip-installable via <code>pyproject.toml</code>
+<strong>TODO:</strong>
+1. Update <code>requirements.txt</code> with pinned versions
+2. Document installation: <code>pip install -e .</code> or <code>pixi run</code>
+3. Update README.md:
+   - Architecture diagram
+   - Quick-start examples
+   - Dashboard screenshots
+   - Financial theory background
+   - Backtesting results table
+4. Create <code>docs/QUICKSTART.md</code>:
+   - "Run the dashboard in 2 minutes"
+   - Example custom ticker workflow
+   - Interpreting plots and statistics
+5. GitHub Actions CI/CD:
+   - Run tests on push
+   - Generate figures on main branch update
+   - Auto-deploy docs site</p>
+<p><strong>Effort Estimate:</strong> 3-5 hours</p>
+<h3 id="phase-5-implementation-timeline">Phase 5 Implementation Timeline<a class="headerlink" href="#phase-5-implementation-timeline" title="Permanent link">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Hours</th>
+<th>Priority</th>
+<th>Dependency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OOP Refactoring</td>
+<td>10</td>
+<td>1</td>
+<td>Phase 3 complete</td>
+</tr>
+<tr>
+<td>Streamlit Dashboard</td>
+<td>12</td>
+<td>1</td>
+<td>OOP Refactoring</td>
+</tr>
+<tr>
+<td>Performance Optimization</td>
+<td>5</td>
+<td>2</td>
+<td>Dashboard prototype</td>
+</tr>
+<tr>
+<td>Packaging &amp; Docs</td>
+<td>4</td>
+<td>2</td>
+<td>All code complete</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>31</strong></td>
+<td>--</td>
+<td>--</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Estimated 1-week effort for full Phase 5 (working 5-7 hours/day)</strong></p>
+<hr />
+<h2 id="phase-6-research-paper-complete">Phase 6: Research Paper ✓ COMPLETE<a class="headerlink" href="#phase-6-research-paper-complete" title="Permanent link">#</a></h2>
+<h3 id="goal_5">Goal<a class="headerlink" href="#goal_5" title="Permanent link">#</a></h3>
+<p>Publish a polished academic paper documenting theory, method, experiments, and results.</p>
+<h3 id="completed-tasks_4">Completed Tasks<a class="headerlink" href="#completed-tasks_4" title="Permanent link">#</a></h3>
+<h4 id="61-latex-manuscript">6.1 LaTeX Manuscript ✓<a class="headerlink" href="#61-latex-manuscript" title="Permanent link">#</a></h4>
+<p><strong>File:</strong> <code>paper/stochastech.tex</code> (237 lines, 7 pages)</p>
+<p><strong>Sections:</strong>
+1. <strong>Abstract</strong> ✓ — Problem statement, differentiable calibration approach, VaR backtesting results
+2. <strong>Introduction</strong> ✓ — Heston motivation, differentiable programming advances, contributions
+3. <strong>Mathematical Model</strong> ✓ — Full Heston SDE, log-return form, Feller condition
+4. <strong>Method</strong> ✓ — Full-truncation Euler discretization, energy-distance loss, reparameterization, BPTT vs adjoint trade-off analysis
+5. <strong>VaR Forecasting &amp; Backtesting</strong> ✓ — GBM-MLE, Heston-AI, historical methods; Kupiec and Christoffersen tests
+6. <strong>Experiments</strong> ✓ — Data (SPY/AAPL/MSFT 2018-2024), hyperparameters, calibration trajectories
+7. <strong>Results</strong> ✓ — Coverage analysis, independence tests, parameter stability, limitations discussion
+8. <strong>Discussion &amp; Future Work</strong> ✓ — Regime-break limitations, implied-vol calibration opportunity, C++/CUDA roadmap, Heston-with-jumps extension</p>
+<h4 id="62-figures">6.2 Figures ✓<a class="headerlink" href="#62-figures" title="Permanent link">#</a></h4>
+<ul>
+<li><code>paper/figures/param_trajectories_SPY.pdf</code> — Parameter evolution (rolling windows)</li>
+<li><code>paper/figures/coverage_alpha95.pdf</code> — Violation rate comparison (GBM-MLE, Heston-AI, Historical)</li>
+</ul>
+<h4 id="63-results-table">6.3 Results Table ✓<a class="headerlink" href="#63-results-table" title="Permanent link">#</a></h4>
+<p><strong>Table 1: Out-of-sample VaR Coverage at α = 0.95</strong></p>
+<table>
+<thead>
+<tr>
+<th>Ticker</th>
+<th>Method</th>
+<th>Forecasts</th>
+<th>Violations</th>
+<th>Obs. Rate</th>
+<th>Kupiec p</th>
+<th>CC p</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SPY</td>
+<td>GBM-MLE</td>
+<td>60</td>
+<td>4</td>
+<td>0.067</td>
+<td>0.5721</td>
+<td>0.6372</td>
+</tr>
+<tr>
+<td>SPY</td>
+<td>Heston-AI</td>
+<td>60</td>
+<td>11</td>
+<td>0.183</td>
+<td>0.0002</td>
+<td>0.0001</td>
+</tr>
+<tr>
+<td>SPY</td>
+<td>Historical</td>
+<td>60</td>
+<td>4</td>
+<td>0.067</td>
+<td>0.5721</td>
+<td>0.4092</td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>GBM-MLE</td>
+<td>60</td>
+<td>4</td>
+<td>0.067</td>
+<td>0.5721</td>
+<td>0.6372</td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>Heston-AI</td>
+<td>60</td>
+<td>9</td>
+<td>0.150</td>
+<td>0.0037</td>
+<td>0.0048</td>
+</tr>
+<tr>
+<td>AAPL</td>
+<td>Historical</td>
+<td>60</td>
+<td>4</td>
+<td>0.067</td>
+<td>0.5721</td>
+<td>0.6372</td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>GBM-MLE</td>
+<td>60</td>
+<td>6</td>
+<td>0.100</td>
+<td>0.1154</td>
+<td>0.2531</td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>Heston-AI</td>
+<td>60</td>
+<td>13</td>
+<td>0.217</td>
+<td>0.0000</td>
+<td>0.0000</td>
+</tr>
+<tr>
+<td>MSFT</td>
+<td>Historical</td>
+<td>60</td>
+<td>6</td>
+<td>0.100</td>
+<td>0.1154</td>
+<td>0.2531</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Finding:</strong> Heston too conservative (15-22% violations vs 5% nominal). GBM-MLE and Historical pass all tests.</p>
+<h4 id="64-pdf-output">6.4 PDF Output ✓<a class="headerlink" href="#64-pdf-output" title="Permanent link">#</a></h4>
+<ul>
+<li><strong>File:</strong> <code>paper/stochastech.pdf</code> (7 pages, 237KB)</li>
+<li><strong>Build:</strong> <code>pdflatex -interaction=nonstopmode paper/stochastech.tex</code> → <code>paper/stochastech.pdf</code></li>
+<li><strong>Status:</strong> Compiles cleanly, all figures embedded</li>
+</ul>
+<h3 id="result-interpretation">Result Interpretation<a class="headerlink" href="#result-interpretation" title="Permanent link">#</a></h3>
+<p><strong>Coverage Discussion (from paper, page 6):</strong></p>
+<blockquote>
+<p>"GBM-MLE and historical simulation achieve nominal 5% coverage on all three tickers, with Kupiec p-values above 0.05 (passing the test). Heston, contrary to the motivating hypothesis, exhibits conservative forecasts: observed violation rates of 15–22% on SPY, AAPL, MSFT respectively, all significantly below the nominal 5%. The Kupiec test rejects Heston's forecasts (p &lt; 0.001 on SPY and MSFT). This suggests that the energy-distance loss, while stable for calibration, does not minimize 1-day VaR underestimation when the model is misspecified or parameter uncertainty is high. A likelihood-based calibration (e.g., via the adjoint SDE) or risk-metric-specific loss may improve coverage."</p>
+</blockquote>
+<p><strong>Next Steps for Paper:</strong>
+- Submit to quantitative finance venue (e.g., Journal of Computational Finance, Risk Magazine)
+- Consider revisions based on Phase 4 extended analysis (ES, error matrix, tail risk)
+- Benchmark against other stochastic volatility models (SABR, Roughbergomi) in future work</p>
+<h3 id="next-steps-complete_3">Next Steps (Complete)<a class="headerlink" href="#next-steps-complete_3" title="Permanent link">#</a></h3>
+<p>✓ All Phase 6 objectives met. Paper ready for publication.</p>
+<hr />
+<h2 id="full-pipeline-execution">Full Pipeline Execution<a class="headerlink" href="#full-pipeline-execution" title="Permanent link">#</a></h2>
+<h3 id="command-sequence">Command Sequence<a class="headerlink" href="#command-sequence" title="Permanent link">#</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Phase 1: Data</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>pixi<span class="w"> </span>run<span class="w"> </span>-e<span class="w"> </span>dev<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from stochastech.data.loaders import load_prices; print(load_prices(&#39;SPY&#39;, &#39;2024-01-01&#39;, &#39;2024-12-31&#39;).shape)&quot;</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Phase 2 &amp; 3: Baseline + Calibration</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>pixi<span class="w"> </span>run<span class="w"> </span>-e<span class="w"> </span>dev<span class="w"> </span>python<span class="w"> </span>scripts/run_calibration.py<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">  </span>--tickers<span class="w"> </span>SPY<span class="w"> </span>AAPL<span class="w"> </span>MSFT<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">  </span>--window<span class="w"> </span><span class="m">504</span><span class="w"> </span>--step<span class="w"> </span><span class="m">84</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">  </span>--n-paths<span class="w"> </span><span class="m">256</span><span class="w"> </span>--n-iters<span class="w"> </span><span class="m">100</span><span class="w"> </span>--lr<span class="w"> </span>1e-2
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="c1"># Phase 3 Validation: Backtest</span>
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>pixi<span class="w"> </span>run<span class="w"> </span>-e<span class="w"> </span>dev<span class="w"> </span>python<span class="w"> </span>scripts/run_backtest.py<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="w">  </span>--tickers<span class="w"> </span>SPY<span class="w"> </span>AAPL<span class="w"> </span>MSFT<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="w">  </span>--window<span class="w"> </span><span class="m">504</span><span class="w"> </span>--step<span class="w"> </span><span class="m">21</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="w">  </span>--alpha<span class="w"> </span><span class="m">0</span>.95<span class="w"> </span>--mc-paths<span class="w"> </span><span class="m">20000</span>
+</span><span id="__span-21-15"><a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>
+</span><span id="__span-21-16"><a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a><span class="c1"># Phase 4: Reproduce Figures</span>
+</span><span id="__span-21-17"><a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a>pixi<span class="w"> </span>run<span class="w"> </span>-e<span class="w"> </span>dev<span class="w"> </span>python<span class="w"> </span>scripts/reproduce_figures.py
+</span><span id="__span-21-18"><a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>
+</span><span id="__span-21-19"><a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a><span class="c1"># Phase 6: Build Paper</span>
+</span><span id="__span-21-20"><a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a><span class="nb">cd</span><span class="w"> </span>paper<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>pdflatex<span class="w"> </span>-interaction<span class="o">=</span>nonstopmode<span class="w"> </span>stochastech.tex<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>..
+</span></code></pre></div>
+<h3 id="expected-runtime">Expected Runtime<a class="headerlink" href="#expected-runtime" title="Permanent link">#</a></h3>
+<ul>
+<li><strong>Calibration:</strong> ~30 min (3 tickers × 10 rolling windows × 1 min per window)</li>
+<li><strong>Backtest:</strong> ~45 min (3 tickers × 60 forecast windows × 45s per window)</li>
+<li><strong>Figures:</strong> ~30 sec</li>
+<li><strong>Paper PDF:</strong> ~5 sec</li>
+<li><strong>Total:</strong> ~1.5 hours end-to-end</li>
+</ul>
+<h3 id="verification-checklist">Verification Checklist<a class="headerlink" href="#verification-checklist" title="Permanent link">#</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>✓ Phase 1: data_cache/ directory populated with CSV files
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>✓ Phase 2: GBM baseline VaR ~5% violation rate
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>✓ Phase 3: results/calibration_bptt.json with parameter trajectories
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>✓ Phase 4: results/backtest_alpha95.json with coverage metrics
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>✓ Phase 5: paper/figures/*.pdf all generated
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>✓ Phase 6: paper/stochastech.pdf compiles and reads cleanly
+</span></code></pre></div>
+<hr />
+<h2 id="next-priority-phase-5-product-development">Next Priority: Phase 5 Product Development<a class="headerlink" href="#next-priority-phase-5-product-development" title="Permanent link">#</a></h2>
+<h3 id="recommended-roadmap">Recommended Roadmap<a class="headerlink" href="#recommended-roadmap" title="Permanent link">#</a></h3>
+<p><strong>Week 1:</strong>
+1. OOP refactoring (8h) → clean architecture
+2. Streamlit prototype (8h) → basic dashboard
+3. Performance baseline (2h) → identify bottlenecks</p>
+<p><strong>Week 2:</strong>
+1. Numba optimization (4h) → 5-8× speedup
+2. Advanced dashboard features (6h) → interactive plots, live progress
+3. Documentation (4h) → README, quickstart, architecture guide</p>
+<p><strong>Week 3:</strong>
+1. Packaging &amp; CI/CD (3h) → GitHub Actions, pypi
+2. Testing (3h) → unit tests for refactored code
+3. Final polish (4h) → edge cases, error handling</p>
+<p><strong>Outcome:</strong> Production-ready product with dashboard, clean code, 5-8× faster, and full documentation.</p>
+<hr />
+<h2 id="files-references">Files &amp; References<a class="headerlink" href="#files-references" title="Permanent link">#</a></h2>
+<h3 id="core-implementation">Core Implementation<a class="headerlink" href="#core-implementation" title="Permanent link">#</a></h3>
+<ul>
+<li><code>stochastech/data/loaders.py</code> — Data fetching + caching</li>
+<li><code>stochastech/sde/heston.py</code> — Full-truncation Euler simulator</li>
+<li><code>stochastech/calibration/heston_fit.py</code> — BPTT calibrator + Adam optimizer</li>
+<li><code>stochastech/risk/var.py</code> — VaR forecasting (all methods)</li>
+<li><code>stochastech/risk/backtest.py</code> — Kupiec/Christoffersen tests</li>
+<li><code>stochastech/viz/plots.py</code> — Visualization suite</li>
+</ul>
+<h3 id="scripts">Scripts<a class="headerlink" href="#scripts" title="Permanent link">#</a></h3>
+<ul>
+<li><code>scripts/run_calibration.py</code> — Rolling-window calibration pipeline</li>
+<li><code>scripts/run_backtest.py</code> — Out-of-sample VaR backtesting</li>
+<li><code>scripts/reproduce_figures.py</code> — Figure generation from cached results</li>
+<li><code>scripts/grad_check.py</code> — Gradient validation</li>
+</ul>
+<h3 id="paper">Paper<a class="headerlink" href="#paper" title="Permanent link">#</a></h3>
+<ul>
+<li><code>paper/stochastech.tex</code> — LaTeX manuscript (7 pages)</li>
+<li><code>paper/stochastech.pdf</code> — Final PDF (7 pages)</li>
+<li><code>paper/figures/*.pdf</code> — Embedded figures</li>
+</ul>
+<h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">#</a></h3>
+<ul>
+<li><code>stochastech/.env.example</code> — API key template</li>
+<li><code>pyproject.toml</code> — Package metadata</li>
+<li><code>pixi.toml</code> — Environment definition</li>
+<li><code>pyproject.toml</code> → Test configuration</li>
+</ul>
+<h3 id="results">Results<a class="headerlink" href="#results" title="Permanent link">#</a></h3>
+<ul>
+<li><code>results/calibration_bptt.json</code> — Parameter trajectories</li>
+<li><code>results/backtest_alpha95.json</code> — Coverage metrics + violations</li>
+<li><code>data_cache/tiingo/*.csv</code> — Tiingo API caches</li>
+</ul>
+<hr />
+<h2 id="appendix-zezwa-reference-model">Appendix: Zezwa Reference Model<a class="headerlink" href="#appendix-zezwa-reference-model" title="Permanent link">#</a></h2>
+<p>The original zezwa_pipeline.txt defined 6 phases. StochasTech implements all phases:</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Zezwa</th>
+<th>StochasTech</th>
+<th>Alignment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Data &amp; Env</td>
+<td>Tiingo + Pixi</td>
+<td>✓ Full</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Baseline Sim</td>
+<td>GBM + Heston</td>
+<td>✓ Full</td>
+</tr>
+<tr>
+<td>3</td>
+<td>AI Calibrator</td>
+<td>BPTT Adam</td>
+<td>✓ Full</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Deep Analysis</td>
+<td>Backtesting + Plots</td>
+<td>◐ Core done</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Product</td>
+<td>OOP + Streamlit</td>
+<td>✗ Not started</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Paper</td>
+<td>LaTeX publication</td>
+<td>✓ Full</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Phase 4 remaining work:</strong> KDE plots, Expected Shortfall, error matrices, tail analysis
+<strong>Phase 5 blocker:</strong> Requires OOP refactoring + Streamlit development</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/AmineChr54/StochasTech" target="_blank" rel="noopener" title="StochasTech on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.code.annotate", "content.action.edit", "content.tabs.link", "content.tooltips", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.top", "navigation.footer", "navigation.indexes", "search.suggest", "search.highlight", "search.share", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

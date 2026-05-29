@@ -1,0 +1,251 @@
+/* ===================================================================
+   StochasTech — Custom Documentation Theme
+   Deep navy/teal + gold accents — quantitative finance inspired
+   =================================================================== */
+
+/* --- Color Palette — Dark Mode ------------------------------------ */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #0d1b2a;
+  --md-primary-bg-color: #e0e1dd;
+  --md-accent-fg-color: #d4a843;
+  --md-default-bg-color: #0d1117;
+  --md-default-fg-color--light: #8b949e;
+
+  /* Navigation */
+  --md-typeset-a-color: #58a6ff;
+
+  /* Code blocks */
+  --md-code-bg-color: #161b22;
+  --md-code-fg-color: #c9d1d9;
+
+  /* Admonitions */
+  --md-admonition-bg-color: #161b22;
+}
+
+/* --- Color Palette — Light Mode ----------------------------------- */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #1b2838;
+  --md-primary-bg-color: #ffffff;
+  --md-accent-fg-color: #b8860b;
+
+  --md-typeset-a-color: #1a73a7;
+}
+
+/* --- Header ------------------------------------------------------- */
+.md-header {
+  background: linear-gradient(135deg, #0d1b2a 0%, #1b3a4b 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-md-color-scheme="default"] .md-header {
+  background: linear-gradient(135deg, #1b2838 0%, #2c4a5e 100%);
+}
+
+/* --- Navigation Tabs ---------------------------------------------- */
+.md-tabs {
+  background: rgba(13, 27, 42, 0.95);
+  border-bottom: 1px solid rgba(212, 168, 67, 0.2);
+}
+
+[data-md-color-scheme="default"] .md-tabs {
+  background: rgba(27, 40, 56, 0.95);
+}
+
+.md-tabs__link--active,
+.md-tabs__link:hover {
+  color: #d4a843 !important;
+}
+
+/* --- Sidebar ------------------------------------------------------ */
+.md-nav__link--active {
+  color: var(--md-accent-fg-color) !important;
+  font-weight: 600;
+}
+
+/* --- Hero Section (Home page) ------------------------------------- */
+.md-typeset .hero {
+  text-align: center;
+  padding: 2rem 1rem 3rem;
+  margin-bottom: 2rem;
+}
+
+.md-typeset .hero h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #58a6ff 0%, #d4a843 50%, #16a085 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+[data-md-color-scheme="default"] .md-typeset .hero h1 {
+  background: linear-gradient(135deg, #1a73a7 0%, #b8860b 50%, #0e8a6f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.md-typeset .hero .hero-subtitle {
+  font-size: 1.2rem;
+  color: var(--md-default-fg-color--light);
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+/* --- Feature Grid ------------------------------------------------- */
+.md-typeset .feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+  margin: 2rem 0;
+}
+
+.md-typeset .feature-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 168, 67, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-md-color-scheme="slate"] .md-typeset .feature-card {
+  background: linear-gradient(135deg, #161b22 0%, #1c2333 100%);
+}
+
+[data-md-color-scheme="default"] .md-typeset .feature-card {
+  background: linear-gradient(135deg, #f6f8fa 0%, #eef1f5 100%);
+  border-color: rgba(27, 40, 56, 0.12);
+}
+
+.md-typeset .feature-card:hover {
+  border-color: rgba(212, 168, 67, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+[data-md-color-scheme="default"] .md-typeset .feature-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.md-typeset .feature-card .feature-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.md-typeset .feature-card h3 {
+  margin: 0.5rem 0;
+  font-size: 1.05rem;
+  color: var(--md-accent-fg-color);
+}
+
+.md-typeset .feature-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--md-default-fg-color--light);
+  line-height: 1.5;
+}
+
+/* --- Quick Install Box -------------------------------------------- */
+.md-typeset .install-box {
+  border-radius: 12px;
+  border: 1px solid rgba(212, 168, 67, 0.2);
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .install-box {
+  background: #161b22;
+}
+
+[data-md-color-scheme="default"] .md-typeset .install-box {
+  background: #f6f8fa;
+  border-color: rgba(27, 40, 56, 0.1);
+}
+
+/* --- Status Badges ------------------------------------------------ */
+.md-typeset .status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.md-typeset .status-badge.active {
+  background: rgba(22, 160, 133, 0.15);
+  color: #16a085;
+  border: 1px solid rgba(22, 160, 133, 0.3);
+}
+
+.md-typeset .status-badge.deferred {
+  background: rgba(212, 168, 67, 0.15);
+  color: #d4a843;
+  border: 1px solid rgba(212, 168, 67, 0.3);
+}
+
+/* --- Math Blocks -------------------------------------------------- */
+.md-typeset .arithmatex {
+  overflow-x: auto;
+}
+
+.md-typeset .MathJax {
+  font-size: 1.05em !important;
+}
+
+/* --- Tables ------------------------------------------------------- */
+.md-typeset table:not([class]) {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 168, 67, 0.12);
+}
+
+.md-typeset table:not([class]) th {
+  background: rgba(212, 168, 67, 0.08);
+  font-weight: 600;
+}
+
+/* --- Footer ------------------------------------------------------- */
+.md-footer {
+  border-top: 1px solid rgba(212, 168, 67, 0.15);
+}
+
+/* --- Scrollbar (Webkit) ------------------------------------------- */
+[data-md-color-scheme="slate"] ::-webkit-scrollbar-thumb {
+  background: rgba(212, 168, 67, 0.3);
+  border-radius: 4px;
+}
+
+[data-md-color-scheme="slate"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 168, 67, 0.5);
+}
+
+/* --- Smooth Transitions ------------------------------------------- */
+* {
+  transition-property: color, background-color, border-color, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+/* Don't transition layout properties */
+.md-typeset pre,
+.md-typeset code,
+.md-content {
+  transition: none;
+}
+
+/* --- Responsive --------------------------------------------------- */
+@media screen and (max-width: 76.25em) {
+  .md-typeset .hero h1 {
+    font-size: 2rem;
+  }
+
+  .md-typeset .feature-grid {
+    grid-template-columns: 1fr;
+  }
+}

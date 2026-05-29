@@ -1,0 +1,200 @@
+Stochastic Modeling and AI-Based
+Calibration
+for Financial Risk Estimation
+1 Introduction
+Financial markets exhibit complex and random behavior, making accurate modeling of
+asset prices a challenging task. Traditional models such as the Black-Scholes Model,
+and simple statistical models, often fail to capture important empirical features such as
+time-varying volatility and extreme market events.
+The objective of this project is to:
+ Model asset price dynamics using Geometric Brownian Motion (GBM) and the
+Heston Stochastic Volatility model.
+ Estimate financial risk using Value-at-Risk (VaR).
+ Compare simulation outputs with real market data.
+ Improve model accuracy using an optimization-based calibration approach (an AI
+component).
+2 Stochastic Models
+2.1 Geometric Brownian Motion (GBM)
+The GBM is defined by the following Stochastic Differential Equation (SDE):
+dSt = µStdt + σStdWt
+Where:
+ St: Asset price at time t. It is a stochastic process; it acts like a function of time,
+but it is not deterministic. Every time we simulate a solution, we get a different
+function because it is random.
+ µ: Drift. This represents the average growth rate. It affects the average trajectory
+over time (µStdt) and is assumed to be a constant.
+ σ: Volatility. This is a constant that dictates how much St vibrates or fluctuates.
+1
+
+ Wt: Brownian motion (Wiener process), which is a standard stochastic process.
+Interpretation: The GBM model assumes that asset prices evolve with a constant
+volatility (σ), driven by random fluctuations.
+t
+St
+2.2 Heston Model (Stochastic Volatility)
+To address the limitations of constant volatility, the Heston model defines the asset price
+alongside a variance process:
+dSt = µStdt + √vtStdW 1
+t
+dvt = κ(θ − vt)dt + ξ√vtdW 2
+t
+Where:
+ vt: Variance (which is now time-dependent, rather than a constant).
+ κ: Speed of mean-reversion. It controls the speed at which the variance process
+will revert to its long-term mean.
+ θ: Long-term mean of the variance.
+ ξ: Volatility of the variance (often called “vol of vol”).
+ dW 1
+t , dW 2
+t : Two Wiener processes.
+ ρ: Correlation of the two Wiener processes, where cov(dW 1
+t , dW 2
+t ) = ρdt. It controls
+the relationship between the dynamics of the underlying asset price and its volatility.
+For stocks, this is typically negative.
+Interpretation: The Heston model allows volatility to evolve randomly over time
+while staying anchored to a long-term average, making it far more realistic for financial
+markets.
+t
+vt
+θ
+vt − θ is large (+)
+vt − θ is large (-)
+2
+
+3 Discretization (Simulation Form)
+To generate paths on a computer, we must divide our time horizon T into small, discrete
+steps of size ∆ t using the Euler-Maruyama method.
+3.1 GBM Discretization
+St+∆t = St + µSt∆t + σSt
+√
+∆tZ
+Here, Z ∼ N(0, 1) is a random number drawn from a standard normal distribution.
+3.2 Heston Model Discretization
+vt+∆t = vt + κ(θ − vt)∆t + ξ
+p
+vt∆tZ2
+St+∆t = St + µSt∆t + √vtSt
+√
+∆tZ1
+Where Z1, Z2 ∼ N(0, 1) are standard normal random variables, and their correlation is
+corr(Z1, Z2) = ρ.
+4 Simulation Setup
+ Time horizon: T = 1 year.
+ Number of steps: 252 (Standard trading days in a year).
+ Number of simulations: 10, 000 (To create a robust probability distribution).
+5 Outputs and Risk Measurement
+5.1 Return Definition
+We calculate the simple return R for each of the 10,000 simulated paths:
+R = ST − S0
+S0
+5.2 Value-at-Risk (VaR) Explained
+Financial Meaning: Value-at-Risk answers a fundamental question for any investor or
+bank: “Under normal market conditions, what is the maximum amount of money I can
+expect to lose over a given time period, with a certain level of confidence?”
+If an investment portfolio has a 1-year 95% VaR of -15%, it means we are 95% confident
+that the portfolio will not lose more than 15% of its value over the next year. Conversely,
+there is a 5% probability that the portfolio will experience a loss worse than 15%.
+3
+
+Mathematical Definition and Computation:
+Mathematically, for a given confidence level 1 − α (where α ∈ (0, 1) is the significance
+level), the VaR is defined as the threshold value such that the probability of the loss
+exceeding this threshold is exactly α:
+P (R ≤ −VaRα) = α
+Since we are using Monte Carlo simulations, we compute this empirically using order
+statistics. Let N be the total number of simulated paths ( N = 10 , 000). We calculate
+the return for each path, yielding a set of returns {R1, R2, . . . , RN }. We then sort these
+returns from the lowest (most severe loss) to the highest (greatest gain):
+R(1) ≤ R(2) ≤ · · · ≤ R(N)
+The VaR at confidence level 1 − α is simply the absolute value of the return at the
+α-quantile of this sorted array:
+VaRα = −R([N ×α])
+Applying this to our simulation:
+ For the 95% VaR ( α = 0 .05): N × α = 10 , 000 × 0.05 = 500. We locate the
+500th worst return in our sorted list. VaR 95% = −R(500).
+ For the 99% VaR ( α = 0 .01): N × α = 10 , 000 × 0.01 = 100. We locate the
+100th worst return in our sorted list. VaR 99% = −R(100).
+6 Historical Parameter Estimation (Initial Guesses)
+Before running optimization algorithms, we must calculate parameters directly from his-
+torical data. This acts as our baseline for GBM and the crucial “initial seed” for the
+Heston model.
+6.1 Estimating GBM Parameters
+ Log-returns: rt = ln
+
+St+1
+St
+
+ Volatility: σ = std(r)/
+√
+∆t
+ Drift: µ = mean(r)/∆t + 1
+2 σ2
+6.2 Estimating Heston Parameters (Proxy Method)
+Because the variance vt is hidden in real life, we must create a proxy (such as a 30-
+day rolling historical variance or the VIX index) to estimate the parameters prior to AI
+calibration.
+ θ (Long-term mean): The historical average of the variance proxy.
+4
+
+ v0 (Initial variance): The most recent value of the variance proxy.
+ ξ (Vol of vol): The standard deviation of the daily changes in the variance proxy.
+ ρ (Correlation): The statistical correlation between the daily stock returns and
+the daily changes in the variance proxy.
+ κ (Mean reversion speed): Found by running a linear regression where the
+dependent variable (Y ) is the daily change in variance, and the independent variable
+(X) is the distance from the mean.
+7 Model Comparison
+We will compute and compare the following metrics across the GBM simulation, the
+historically-estimated Heston simulation, and the real market data:
+ Mean of returns
+ Variance of returns
+ Value-at-Risk (VaR) at 95% and 99%
+8 Calibration (AI Component)
+Because the historical proxy method is imperfect, we use an optimization algorithm to
+fine-tune the Heston parameters.
+8.1 Objective and Seed Values
+Minimize the error over the parameter space ( κ, θ, ξ, ρ, v0). We will feed the historical
+estimates calculated in Section 6.2 into the optimizer as the starting “seed” values to
+ensure the algorithm converges efficiently.
+8.2 Loss Function
+We define a Loss Function (L) that calculates the penalty for how far off our simulation
+is from the real market data.
+L = w1(meansim − meanreal)2 + w2(variancesim − variancereal)2 + w3(VaRsim − VaRreal)2
+8.3 Interpretation
+The AI algorithm will start at our historical guesses, run the simulation, check the loss
+L, and intelligently adjust the parameters to minimize the difference between simulated
+outputs and reality.
+5
+
+9 Optimization Strategy
+ Use a gradient-free optimization algorithm (such as Nelder-Mead or a Genetic Al-
+gorithm).
+ Evaluate the loss function iteratively.
+ Update the parameters until the loss function reaches a minimum threshold, yielding
+our final, calibrated Heston parameters.
+10 Expected Outputs
+Graphs
+ Visual plots of simulated price paths comparing GBM and Heston to observe volatil-
+ity clustering.
+ Histograms showing the return distributions (overlaying GBM, Heston, and Real
+Data).
+Quantitative Results & Statistical Comparisons
+ VaR (95%, 99%) calculated for each model phase.
+ Historically estimated GBM parameters and Heston parameters.
+ AI-Optimized Heston parameters (Post-calibration).
+ Error Analysis: We will compare the statistical information errors (such as the
+mean and variance) of the GBM Baseline, Heston (Historical), and Heston (AI
+Calibrated) models directly with the real market data.
+ Risk Evaluation: We will analyze the differences in the VaR 95% and VaR 99%
+across these three modeling phases to determine which model configuration most
+accurately captures the extreme risk and “fat tails” observed in real-world trading.
+11 Conclusion
+This project combines stochastic modeling, statistical estimation, and algorithmic opti-
+mization to improve financial risk estimation. While GBM provides a baseline, the Heston
+model captures realistic market dynamics. By taking historical statistical estimates and
+refining them through an AI-based calibration loop, this workflow forces the simulated
+distributions to closely align with real observed market crashes and heavy tails. Accu-
+rate financial modeling requires both an appropriate stochastic structure and effective
+parameter calibration, which this project successfully demonstrates.
+6
