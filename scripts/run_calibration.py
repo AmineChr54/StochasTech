@@ -34,15 +34,23 @@ def _default_init() -> HestonParams:
 def _calibrate_ticker(
     ticker: str, start: str, end: str, window: int, step: int,
     n_paths: int, n_iters: int, lr: float, seed: int, method: str,
-    column: str = "Close",
+    column: str = "Close", verbose: bool = True, progress_every: int = 20,
 ) -> dict:
+    print(f"  fetching prices for {ticker} {start}..{end} ...", flush=True)
     df = load_prices(ticker, start, end, column=column)
     rets = log_returns(df[column])
     rets_t = torch.tensor(rets.to_numpy(), dtype=torch.float64)
+    n_windows = max(0, (rets_t.numel() - window) // step + 1)
+    print(
+        f"  loaded {rets_t.numel()} returns "
+        f"({rets.index[0].date()}..{rets.index[-1].date()}); "
+        f"rolling fit: window={window} step={step} -> {n_windows} windows",
+        flush=True,
+    )
     records = rolling_window_calibration(
         returns=rets_t, dt=1 / 252, init=_default_init(), window=window, step=step,
         loss="energy", n_paths=n_paths, n_iters=n_iters, lr=lr, seed=seed,
-        method=method,
+        method=method, verbose=verbose, progress_every=progress_every,
     )
     # Attach the actual date range for each window (more useful in the paper than indices).
     dates = list(rets.index)
@@ -76,6 +84,10 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--method", default="bptt", choices=["bptt", "gradient_free"])
     parser.add_argument("--results-dir", default="results")
+    parser.add_argument("--progress-every", type=int, default=20,
+                        help="print per-iter loss line every N iterations")
+    parser.add_argument("--quiet", action="store_true",
+                        help="suppress per-iter progress lines")
     args = parser.parse_args()
 
     results_dir = Path(args.results_dir)
@@ -88,6 +100,7 @@ def main() -> None:
             ticker=ticker, start=args.start, end=args.end,
             window=args.window, step=args.step, n_paths=args.n_paths,
             n_iters=args.n_iters, lr=args.lr, seed=args.seed, method=args.method,
+            verbose=not args.quiet, progress_every=args.progress_every,
         )
         all_results.append(result)
         for r in result["windows"]:

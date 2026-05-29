@@ -39,7 +39,7 @@ paper/*.blg
 paper/*.fls
 paper/*.fdb_latexmk
 paper/*.synctex.gz
-paper/*.pdf
+!apaper/stochastech.pdf
 
 # MkDocs build output
 site/

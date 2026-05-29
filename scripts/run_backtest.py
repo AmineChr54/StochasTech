@@ -22,11 +22,25 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 import time
 from pathlib import Path
 
 import numpy as np
 import torch
+
+
+def _is_tty() -> bool:
+    try:
+        return sys.stdout.isatty()
+    except (AttributeError, ValueError):
+        return False
+
+
+def _bar(pct: float, width: int = 20) -> str:
+    pct = max(0.0, min(1.0, pct))
+    filled = int(round(width * pct))
+    return "[" + "#" * filled + "-" * (width - filled) + "]"
 
 from stochastech.calibration.heston_fit import HestonParams, fit_heston
 from stochastech.data.loaders import load_prices, log_returns
@@ -52,8 +66,9 @@ def _default_init() -> HestonParams:
 def _backtest_ticker(
     ticker: str, start: str, end: str, window: int, step: int, alpha: float,
     n_paths: int, n_iters: int, lr: float, seed: int, mc_paths: int,
-    column: str = "Close",
+    column: str = "Close", verbose: bool = True, progress_every: int = 25,
 ) -> dict:
+    print(f"  fetching prices for {ticker} {start}..{end} ...", flush=True)
     df = load_prices(ticker, start, end, column=column)
     rets_series = log_returns(df[column])
     rets = torch.tensor(rets_series.to_numpy(), dtype=torch.float64)
@@ -70,7 +85,13 @@ def _backtest_ticker(
     current_init = _default_init()
 
     starts = list(range(0, n - window, step))
-    print(f"  [{ticker}] {len(starts)} forecast windows over {n} returns")
+    print(
+        f"  [{ticker}] {len(starts)} forecast windows over {n} returns "
+        f"(window={window} train days, step={step} fwd days, "
+        f"n_paths={n_paths} n_iters={n_iters} mc_paths={mc_paths})",
+        flush=True,
+    )
+    inline = verbose and _is_tty()
     t0 = time.time()
     for idx, s in enumerate(starts):
         train = rets[s : s + window]
@@ -78,6 +99,7 @@ def _backtest_ticker(
         realized = float(rets[s + window].item())
         realized_returns.append(realized)
         forecast_dates.append(str(dates[s + window].date()))
+        fcast_date = forecast_dates[-1]
 
         # GBM-MLE.
         gbm_var, _ = gbm_mle_var_forecast(train, alpha=alpha, horizon=1)
@@ -86,9 +108,18 @@ def _backtest_ticker(
         # Heston: warm-start from the previous fit.
         gen = torch.Generator()
         gen.manual_seed(seed + idx)
-        fitted, _ = fit_heston(
+        if verbose and not inline:
+            print(
+                f"    win {idx + 1}/{len(starts)} forecast={fcast_date}: "
+                f"fitting Heston ({n_iters} iters) ...",
+                flush=True,
+            )
+        fitted, hist = fit_heston(
             returns=train, dt=1 / 252, init=current_init, loss="energy",
             n_paths=n_paths, n_iters=n_iters, lr=lr, generator=gen,
+            verbose=inline, progress_every=max(1, n_iters // 10),
+            progress_prefix=f"    win {idx + 1}/{len(starts)} {fcast_date} ",
+            finalize_progress=not inline,
         )
         current_init = fitted
         gen2 = torch.Generator()
@@ -113,9 +144,26 @@ def _backtest_ticker(
                        for k in ("mu", "kappa", "theta", "xi", "rho", "v0")},
         })
 
-        if (idx + 1) % 25 == 0 or idx == len(starts) - 1:
+        if verbose:
+            viol = {m: violations[m][-1] for m in violations}
             elapsed = time.time() - t0
-            print(f"    {idx + 1}/{len(starts)} done ({elapsed:.1f}s)")
+            eta = elapsed / (idx + 1) * (len(starts) - idx - 1)
+            cum = {m: sum(violations[m]) for m in violations}
+            summary_msg = (
+                f"  [{ticker}] {_bar((idx + 1) / len(starts))} "
+                f"{idx + 1}/{len(starts)} ({fcast_date}) "
+                f"VaR g={forecasts['gbm_mle']:+.4f} h={forecasts['heston']:+.4f} "
+                f"H={forecasts['historical']:+.4f} | "
+                f"realized={realized:+.4f} "
+                f"breach[{viol['gbm_mle']}{viol['heston']}{viol['historical']}] "
+                f"cum[{cum['gbm_mle']}/{cum['heston']}/{cum['historical']}] "
+                f"ETA {eta:5.0f}s"
+            )
+            if inline:
+                sys.stdout.write("\r" + summary_msg + "\x1b[K\n")
+                sys.stdout.flush()
+            elif (idx + 1) % progress_every == 0 or idx == len(starts) - 1:
+                print(summary_msg, flush=True)
 
     # Coverage tests per method.
     summary = {}
@@ -165,6 +213,10 @@ def main() -> None:
     parser.add_argument("--mc-paths", type=int, default=20_000)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--results-dir", default="results")
+    parser.add_argument("--quiet", action="store_true",
+                        help="suppress per-window progress lines")
+    parser.add_argument("--progress-every", type=int, default=25,
+                        help="print ETA every N windows")
     args = parser.parse_args()
 
     results_dir = Path(args.results_dir)
@@ -178,6 +230,7 @@ def main() -> None:
             window=args.window, step=args.step, alpha=args.alpha,
             n_paths=args.n_paths, n_iters=args.n_iters, lr=args.lr,
             seed=args.seed, mc_paths=args.mc_paths,
+            verbose=not args.quiet, progress_every=args.progress_every,
         )
         all_results.append(out)
         print(f"\nCoverage at alpha={args.alpha}:")

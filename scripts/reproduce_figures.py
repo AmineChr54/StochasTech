@@ -30,23 +30,28 @@ FIGURES_DIR = REPO_ROOT / "paper" / "figures"
 
 def _figures_from_calibration(path: Path, figures_dir: Path) -> None:
     if not path.exists():
-        print(f"  [skip] {path.name} not found")
+        print(f"  [skip] {path.name} not found", flush=True)
         return
+    print(f"  reading {path.name} ...", flush=True)
     with open(path) as f:
         payload = json.load(f)
-    for ticker_result in payload["results"]:
+    n_tickers = len(payload["results"])
+    for i, ticker_result in enumerate(payload["results"], 1):
         ticker = ticker_result["ticker"]
         windows = ticker_result["windows"]
         out = figures_dir / f"param_trajectories_{ticker}.pdf"
+        print(f"  [{i}/{n_tickers}] plotting {ticker} ({len(windows)} windows) ...",
+              flush=True)
         plot_param_trajectories(windows, out,
                                 title=f"{ticker} rolling-window calibration")
-        print(f"  wrote {out.relative_to(REPO_ROOT)}")
+        print(f"    wrote {out.relative_to(REPO_ROOT)}", flush=True)
 
 
 def _figures_from_backtest(path: Path, figures_dir: Path) -> None:
     if not path.exists():
-        print(f"  [skip] {path.name} not found")
+        print(f"  [skip] {path.name} not found", flush=True)
         return
+    print(f"  reading {path.name} ...", flush=True)
     with open(path) as f:
         payload = json.load(f)
     alpha = payload["config"]["alpha"]
@@ -64,17 +69,21 @@ def _figures_from_backtest(path: Path, figures_dir: Path) -> None:
         forecasts = ticker_result.get("forecasts_per_method")
         if forecast_dates and realized and violations and forecasts:
             out = figures_dir / f"var_violations_{ticker}.pdf"
+            print(f"    plotting violations for {ticker} "
+                  f"({len(forecast_dates)} forecasts) ...", flush=True)
             plot_var_violations(forecast_dates, realized, forecasts,
                                 violations, out,
                                 title=f"{ticker} 1-day VaR vs realized loss "
                                       f"(alpha={alpha})")
-            print(f"  wrote {out.relative_to(REPO_ROOT)}")
+            print(f"    wrote {out.relative_to(REPO_ROOT)}", flush=True)
 
     if summaries:
         out = figures_dir / f"coverage_alpha{int(alpha*100):02d}.pdf"
+        print(f"    plotting coverage bars ({len(summaries)} tickers) ...",
+              flush=True)
         plot_coverage_bars(summaries, out, expected_rate=1 - alpha,
                            title=f"Observed violation rate (alpha={alpha})")
-        print(f"  wrote {out.relative_to(REPO_ROOT)}")
+        print(f"    wrote {out.relative_to(REPO_ROOT)}", flush=True)
 
 
 def main() -> None:

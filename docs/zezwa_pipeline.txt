@@ -1,0 +1,196 @@
+Project Pipeline: zezwa
+Phase 1: Data & Env
+Fetch Asset &
+VIX, Calc Re-
+turns & True VaR
+Phase 2:
+Baseline Sim
+Est. GBM & He-
+ston Guesses,
+Run Monte Carlo
+Phase 3: AI
+Calibrator
+Simulate Heston, Calc
+Mean, Var, & VaR
+Is Loss
+(MSE)
+Minimized?
+Optimizer
+Adjust κ, θ, ξ, ρ, v0
+(Nelder-Mead)
+Phase 4: Deep
+Analysis
+KDE Tail Risk, VaR
+Checks, Error Matrix
+Phase 5:
+Product
+OOP Architec-
+ture, Streamlit
+Dashboard
+Phase 6: Paper
+Intro, Method-
+ology, Results
+& Conclusion
+No
+Yes
+1
+
+1 Phase 1: The Foundation (Data & Environment)
+Before you can simulate or optimize anything, you need a clean environment and real-
+world ground truth to compare against.
+1.1 Step 1.1: Setup the Tech Stack
+Install Python and the necessary libraries: numpy (for heavy math), pandas (for data
+manipulation), scipy (for the AI optimization algorithm), matplotlib/seaborn (for
+graphing), and yfinance (to pull free market data).
+1.2 Step 1.2: Data Acquisition
+ Write a script to download 5 to 10 years of daily price data for a highly liquid asset
+(like the S&P 500 ETF, SPY).
+ Download the VIX index data for the exact same timeframe (this will be your
+volatility proxy).
+1.3 Step 1.3: Data Preprocessing
+ Calculate the daily log-returns of the asset.
+ Calculate the real-world statistical benchmarks you need to match later: the true
+Mean, true Variance, and true Historical VaR (95% and 99%).
+2 Phase 2: Baseline Simulation (The “Dumb” Mod-
+els)
+Here, you write the code for the math we defined in the report. This establishes your
+starting line.
+2.1 Step 2.1: GBM Parameter Estimation
+Write a function that takes your historical log-returns and computes drift (µ) and volatil-
+ity (σ).
+2.2 Step 2.2: Heston Proxy Estimation
+Write a function that uses your VIX data and log-returns to compute the initial “rough
+guesses” for the Heston parameters ( κ, θ, ξ, ρ, v0).
+2.3 Step 2.3: Build the Monte Carlo Engine
+ Write the simulation loops using the Euler-Maruyama discretization.
+ Run 10,000 paths for GBM and 10,000 paths for the historical Heston model.
+2
+
+2.4 Step 2.4: Compute Baseline Risk
+Calculate the simulated returns and the VaR for both models. Record how far off they
+are from the real-world VaR you calculated in Step 1.3.
+3 Phase 3: AI Calibration (The “Smart” Model)
+This is the core of your project. You will build the optimization loop that forces the
+Heston model to learn the perfect parameters.
+3.1 Step 3.1: Define the Loss Function
+Write a Python function that takes a set of parameters, runs the Heston simulation,
+calculates the simulated Mean/Variance/VaR, and subtracts them from the real-world
+Mean/Variance/VaR to get the Mean Squared Error (MSE).
+3.2 Step 3.2: Set Up the Optimizer
+ Use scipy.optimize.minimize (the Nelder-Mead method is excellent for non-
+smooth stochastic problems like this).
+ Set strict boundaries (e.g., variance cannot be negative, correlation ρ must be be-
+tween -1 and 1).
+3.3 Step 3.3: Execute the Loop
+Feed your “rough guesses” from Step 2.2 into the optimizer. Let the AI run. It will
+simulate, check the error, adjust the parameters, and repeat until it finds the optimal set
+of parameters that mimic reality.
+4 Phase 4: Deep-Dive Analysis & Visualization (The
+Core of Your Research)
+This is where you prove your model works. You need to analyze the data from multiple
+angles to write a compelling research paper. Here is every comparison and metric you
+should generate and discuss:
+4.1 4.1 Visual Path Analysis (The “Smell Test”)
+ GBM vs. Reality: Plot 100 paths of GBM. You will notice it looks like a fuzzy
+caterpillar—the variance never changes. It doesn’t look like a real stock market.
+ Heston vs. Reality: Plot 100 paths of your AI-Calibrated Heston model. You
+should explicitly point out Volatility Clustering. Point out periods where the sim-
+ulated price stays calm, and periods where it suddenly jumps wildly. This matches
+real market behavior (e.g., the 2008 crash or 2020 pandemic).
+3
+
+ Overlay: Plot the single real-world asset path in bold black, with the simulation
+paths lightly shaded in the background. Does the real path stay within the “cone”
+of your simulations?
+4.2 4.2 Distribution & Tail Risk Analysis (The Fat Tails)
+ Kernel Density Estimation (KDE) Plots: Do not just use blocky histograms.
+Plot smooth KDE curves comparing the distribution of returns for Real Data, GBM,
+and Calibrated Heston.
+ Discussing Skewness: Real stock markets crash faster than they rise. Talk about
+how the GBM curve is perfectly symmetrical, while your Heston curve (thanks to
+the negative correlation parameter, ρ) leans to one side, capturing this realistic
+asymmetry.
+ Discussing Kurtosis (Fat Tails):Zoom in on the far-left side of your distribution
+graph. Show how the real data has data points way out in the negative extremes.
+Show how GBM predicts a 0% chance of these extremes happening, while the
+Calibrated Heston model’s tail matches the real data much more closely.
+4.3 4.3 Deep Risk Metric Comparison (Beyond just VaR)
+ VaR 95% vs. 99%: Compare how the models perform at different confidence
+intervals. Usually, GBM does “okay” at 95%, but fails catastrophically at 99%
+because it ignores extreme black swan events.
+ Expected Shortfall (Conditional VaR):Bonus metric to mention in your paper.
+VaR tells you the threshold of a bad day. Expected Shortfall (ES) tells you the
+average loss of those bad days. You can compute the average of all simulated
+returns that fall below your VaR threshold and compare that to the real-world
+average of extreme losses.
+4.4 4.4 The Quantitative Error Matrix
+Create a massive comparison table for your research paper. You will calculate the per-
+centage error between the models and reality for:
+ Error in Mean Return
+ Error in Variance
+ Error in VaR 95%
+ Error in VaR 99%
+Talking point: You will likely find that AI-Calibrated Heston has the lowest error across
+the board, officially proving the hypothesis of your project.
+4
+
+4.5 4.5 Calibration Diagnostics (Proving the AI did its job)
+ Convergence Plot: Plot the value of your Loss Function over the number of AI
+iterations. Show how the error started high (with your rough historical guesses)
+and dropped down to a flat minimum as the AI learned the perfect parameters.
+ Parameter Shift: Create a table showing the “Initial Historical Guess” vs. the
+“Final AI Parameters” to show exactly how much the AI had to correct the human
+math.
+5 Phase 5: Building “The Product” (Software Engi-
+neering)
+To make this a standout portfolio piece and a usable product, you need to elevate it from
+a basic script to professional software.
+5.1 5.1 Object-Oriented Architecture (OOP)
+Do not write one massive block of code. Break your software into modular Python classes:
+ MarketDataFetcher: A class dedicated entirely to connecting to Yahoo Finance,
+pulling data, cleaning missing values, and computing baseline log-returns.
+ StochasticSimulator: A class that houses your Monte Carlo engines. It should
+have methods like .run gbm() and .run heston(). This makes the code reusable.
+ AICalibrator: The brain of the product. This class takes in the simulator and the
+real data, defines the loss function, and runs the optimization algorithms.
+ RiskAnalyzer: A class that takes the output arrays from the simulator and calcu-
+lates the VaR, Expected Shortfall, and generates the comparison matrices.
+5.2 5.2 User Interface (Dashboard Design)
+Use a library like Streamlit (or Dash) to turn your Python code into an interactive web
+app. Your dashboard should feature:
+ Sidebar Controls: Input boxes where a user can type a ticker symbol (e.g., TSLA,
+BTC-USD), select a date range, and choose the number of simulations (e.g., a slider
+from 1,000 to 50,000).
+ Real-time AI Progress: A loading bar or a live metric showing the AI’s loss
+function decreasing as it calibrates in real-time.
+ Interactive Visualizations: Use Plotly instead of Matplotlib. Plotly graphs
+allow the user to hover over the distribution tails, zoom in on the paths, and isolate
+specific lines, making the data exploration highly interactive.
+5
+
+5.3 5.3 Performance Optimization
+Monte Carlo simulations are computationally expensive. Running 10,000 paths for 252
+days with AI optimization loops will be slow in basic Python.
+ Vectorization: Ensure all your Euler-Maruyama math uses NumPy array vector-
+ization rather than slow for loops.
+ Numba / Multiprocessing: Talk about how you used the @njit decorator from
+the Numba library, or Python’s multiprocessing, to parallelize the simulation and
+speed up the AI calibration by 10x to 100x.
+5.4 5.4 Delivery and Packaging
+ Requirements: Create a requirements.txt file so anyone can replicate your
+environment.
+ Documentation: Write a professional README.md on GitHub explaining the finan-
+cial theory, how to run the web app, and featuring screenshots of your dashboard.
+6 Phase 6: The Research Paper
+With the data from Phase 4 and the product architecture from Phase 5, your paper
+practically writes itself:
+ Abstract: Summary of the problem and the AI solution.
+ Introduction: Why Black-Scholes/GBM is flawed for risk managers.
+ Methodology: The SDEs, the Euler-Maruyama steps, and the AI Loss Function.
+ Software Architecture: A brief overview of your OOP design and performance
+optimizations.
+ Results & Discussion: Inject all the visual distribution analyses, tail-risk discus-
+sions, and error matrices from Phase 4 here.
+ Conclusion: Summarize how the calibrated Heston model provides a safer, more
+accurate VaR for modern financial institutions.
+6

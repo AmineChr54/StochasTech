@@ -4,12 +4,44 @@ See ``docs/math/adjoint-sde.md``.
 """
 from __future__ import annotations
 
+import sys
 from dataclasses import asdict, dataclass
 
 import torch
 
 from stochastech.calibration.losses import energy_distance, nll_loss
 from stochastech.sde.heston import simulate_heston_diff
+
+
+def _is_tty() -> bool:
+    """True iff stdout is an interactive terminal (vs piped to a file)."""
+    try:
+        return sys.stdout.isatty()
+    except (AttributeError, ValueError):
+        return False
+
+
+def _bar(pct: float, width: int = 20) -> str:
+    """Unicode progress bar ``[█████░░░░░]`` of width chars."""
+    pct = max(0.0, min(1.0, pct))
+    filled = int(round(width * pct))
+    return "[" + "#" * filled + "-" * (width - filled) + "]"
+
+
+def _live_line(msg: str, inline: bool) -> None:
+    """Write ``msg`` either as a CR-overwrite (TTY) or a newline (piped)."""
+    if inline:
+        # \r + clear-to-EOL (\x1b[K). Trailing space pads on terminals that lack ANSI.
+        sys.stdout.write("\r" + msg + "\x1b[K")
+    else:
+        sys.stdout.write(msg + "\n")
+    sys.stdout.flush()
+
+
+def _finalize_line(inline: bool) -> None:
+    if inline:
+        sys.stdout.write("\n")
+        sys.stdout.flush()
 
 
 @dataclass
@@ -116,6 +148,10 @@ def fit_heston(
     dtype: torch.dtype = torch.float64,
     device: torch.device | str = "cpu",
     max_samples: int | None = 2048,
+    verbose: bool = False,
+    progress_every: int = 20,
+    progress_prefix: str = "      ",
+    finalize_progress: bool = True,
 ) -> tuple[HestonParams, list[float]]:
     """Fit Heston parameters to historical returns by Adam through the SDE.
 
@@ -133,8 +169,9 @@ def fit_heston(
     optimizer = torch.optim.Adam(raw.leaves(), lr=lr)
     n_steps = obs.numel()
 
+    inline = verbose and _is_tty()
     history: list[float] = []
-    for _ in range(n_iters):
+    for it in range(n_iters):
         optimizer.zero_grad()
         params = raw.constrained()
         sim_returns = _simulate_log_returns(
@@ -143,7 +180,24 @@ def fit_heston(
         loss_value = _loss_fn(loss, sim_returns, obs)
         loss_value.backward()
         optimizer.step()
-        history.append(float(loss_value.detach()))
+        loss_scalar = float(loss_value.detach())
+        history.append(loss_scalar)
+        if verbose:
+            tick = inline or it == 0 or (it + 1) % progress_every == 0 or it == n_iters - 1
+            if tick:
+                with torch.no_grad():
+                    cp = raw.constrained()
+                    bar = _bar((it + 1) / n_iters) if inline else ""
+                    msg = (
+                        f"{progress_prefix}{bar} iter {it + 1:4d}/{n_iters} "
+                        f"loss={loss_scalar:.4e} "
+                        f"kappa={cp.kappa.item():.3f} theta={cp.theta.item():.4f} "
+                        f"xi={cp.xi.item():.3f} rho={cp.rho.item():+.3f} "
+                        f"v0={cp.v0.item():.4f}"
+                    )
+                _live_line(msg, inline)
+    if verbose and finalize_progress:
+        _finalize_line(inline)
 
     final = raw.constrained()
     return HestonParams(
@@ -282,6 +336,8 @@ def rolling_window_calibration(
     dtype: torch.dtype = torch.float64,
     device: torch.device | str = "cpu",
     method: str = "bptt",
+    verbose: bool = False,
+    progress_every: int = 20,
 ) -> list[dict]:
     """Run rolling-window Heston calibration over a return series.
 
@@ -310,16 +366,27 @@ def rolling_window_calibration(
     records: list[dict] = []
     current_init = init
     starts = list(range(0, n - window + 1, step))
+    import time as _time
     for win_idx, start in enumerate(starts):
         seg = obs[start:start + window]
         gen = torch.Generator(device="cpu")
         gen.manual_seed(seed + win_idx)
+
+        t_win = _time.time()
+        if verbose:
+            print(
+                f"  window {win_idx + 1}/{len(starts)} "
+                f"[idx {start}..{start + window}, {window} returns] "
+                f"method={method} n_iters={n_iters} n_paths={n_paths}",
+                flush=True,
+            )
 
         if method == "bptt":
             fitted, history = fit_heston(
                 returns=seg, dt=dt, init=current_init, loss=loss,
                 n_paths=n_paths, n_iters=n_iters, lr=lr,
                 generator=gen, dtype=dtype, device=device,
+                verbose=verbose, progress_every=progress_every,
             )
             final_loss = history[-1]
             extra = {"loss_initial": history[0], "n_iters": len(history)}
@@ -342,6 +409,16 @@ def rolling_window_calibration(
             "params": _params_to_dict(fitted),
             **extra,
         })
+        if verbose:
+            elapsed = _time.time() - t_win
+            p = _params_to_dict(fitted)
+            print(
+                f"  window {win_idx + 1}/{len(starts)} done in {elapsed:.1f}s "
+                f"final_loss={final_loss:.4e} "
+                f"kappa={p['kappa']:.3f} theta={p['theta']:.4f} "
+                f"xi={p['xi']:.3f} rho={p['rho']:+.3f} v0={p['v0']:.4f}",
+                flush=True,
+            )
         current_init = fitted
 
     return records

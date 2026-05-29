@@ -1,4 +1,4 @@
-[project]
+[workspace]
 name = "stochastech"
 version = "0.0.1"
 description = "Differentiable Heston-model calibrator with Monte Carlo VaR backtesting."
